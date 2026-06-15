@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learn Physics with BA Sir </title>
+    <title>Learn Physics with BA Sir</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body { font-family: 'Inter', system_ui, sans-serif; }
         .hero-bg { background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://picsum.photos/id/1015/1920/1080') center/cover; }
         .profile-img { border: 5px solid white; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
-        .section-header { background: linear-gradient(to right, #1e40af, #3b82f6); }
+        .section-header { background: linear-gradient(to right, #1e40af, #2563eb, #3b82f6); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-    <!-- Navbar -->
     <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -29,13 +28,14 @@
                 <a href="#home" class="hover:text-blue-600">Home</a>
                 <a href="#grade11" class="hover:text-blue-600">Grade 11</a>
                 <a href="#grade12" class="hover:text-blue-600">Grade 12</a>
+                <a href="#questions" class="hover:text-blue-600">Questions</a>
+                <a href="#syllabus" class="hover:text-blue-600">Syllabus</a>
                 <a href="#about" class="hover:text-blue-600">About</a>
                 <button onclick="showAdminPanel()" class="bg-amber-600 hover:bg-amber-700 text-white px-5 py-2 rounded-2xl text-sm font-medium">Admin Panel</button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero -->
     <section id="home" class="hero-bg text-white py-20">
         <div class="max-w-5xl mx-auto px-6 text-center">
             <img src="profile.png" alt="Basanta Acharya" class="w-44 h-44 mx-auto rounded-3xl object-cover profile-img mb-6">
@@ -48,55 +48,99 @@
         </div>
     </section>
 
-    <!-- About -->
-    <section id="about" class="py-20 bg-white">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <h2 class="text-4xl font-bold mb-12">About BA Sir</h2>
-            <p class="font-bold text-2xl tracking-tight">
-                Completed M.Sc. in Physics from Central Department of Physics, Tribhuvan University (4 GPA in 4th Semester). </p>
-                 <p class="font-bold text-2xl tracking-tight">   Awarded with UGC Research Grant Support-2019 (Nrs. 50,000/-). </p>
-                     <p class="font-bold text-2xl tracking-tight"> 10+ Years of Teaching Experience. </p>
-                     <p class="font-bold text-2xl tracking-tight"> Faculty member at Shaheed Smriti Multiple Campus and Daisy/Sungava College.
-            </p>
+    <div class="bg-blue-600 text-white py-3 shadow-md overflow-hidden">
+        <marquee behavior="scroll" direction="left" class="text-lg font-bold tracking-wide">
+            ✨ Empowering minds, Shaping Futures &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; 🚀 Learn Today, Lead Tomorrow &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; 📚 Your 24 / 7 Study Partner ✨
+        </marquee>
+    </div>
 
-            <!-- Social Media -->
-            <div class="mt-12 flex justify-center gap-8 text-4xl">
-                <h2 class="text-4xl font-bold mb-12">Social Media Links:</h2>
-                <a href="https://www.facebook.com/basanta.acharya.10" target="_blank" class="text-blue-600 hover:scale-110 transition-transform">
-                    <i class="fab fa-facebook"></i>
-                </a>
-                <a href="https://www.youtube.com/@basantaacharya-c4v" target="_blank" class="text-red-600 hover:scale-110 transition-transform">
-                    <i class="fab fa-youtube"></i>
-                </a>
-                <a href="https://www.instagram.com/ach_basanta" target="_blank" class="text-pink-600 hover:scale-110 transition-transform">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="https://wa.me/9779844208507" target="_blank" class="text-green-600 hover:scale-110 transition-transform">
-                    <i class="fab fa-whatsapp"></i>
-                </a>
+    <section id="about" class="py-20 bg-white border-b-4 border-slate-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-transparent border border-blue-100 rounded-3xl p-8 mb-12 border-b-4 border-b-blue-600 shadow-sm">
+                <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
+                    <i class="fas fa-user-tie text-blue-600"></i> About BA Sir
+                </h2>
+            </div>
+            
+            <div class="max-w-4xl mx-auto text-center space-y-4">
+                <p class="font-bold text-xl tracking-tight text-slate-700">
+                    M.Sc. Physics from Central Department of Physics, Tribhuvan University (4 GPA in 4th Semester).
+                </p>
+                <p class="font-bold text-xl tracking-tight text-slate-700">
+                    Awarded with UGC Research Grant Support-2019 (Nrs. 50,000/-).
+                </p>
+                <p class="font-bold text-xl tracking-tight text-slate-700">
+                    10+ Years of Teaching Experience.
+                </p>
+                <p class="font-bold text-xl tracking-tight text-slate-700">
+                    Faculty member at Shaheed Smriti Multiple Campus and Daisy/Sungava College.
+                </p>
+            </div>
+
+            <div class="mt-16 flex flex-col items-center justify-center gap-6">
+                <h3 class="text-2xl font-bold text-slate-800 tracking-tight">Social Media Links:</h3>
+                <div class="flex gap-8 text-4xl">
+                    <a href="https://www.facebook.com/basanta.acharya.10" target="_blank" class="text-blue-600 hover:scale-110 transition-transform">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@basantaacharya-c4v" target="_blank" class="text-red-600 hover:scale-110 transition-transform">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://www.instagram.com/ach_basanta" target="_blank" class="text-pink-600 hover:scale-110 transition-transform">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/9779844208507" target="_blank" class="text-green-600 hover:scale-110 transition-transform">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Grade 11 -->
-    <section id="grade11" class="py-20 bg-slate-50">
+    <div class="bg-slate-800 text-amber-400 py-3 overflow-hidden border-b border-slate-700">
+        <marquee behavior="scroll" direction="left" class="text-lg font-bold tracking-wide">
+            ✨ Empowering minds, Shaping Futures &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; 🚀 Learn Today, Lead Tomorrow &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; 📚 Your 24 / 7 Study Partner ✨
+        </marquee>
+    </div>
+
+    <section id="grade11" class="py-20 bg-slate-50 border-b-4 border-slate-200">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-16 text-center">Grade 11 Physics - Complete Notes Based On NEB Syllabus </h2>
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-3xl p-8 mb-16 border-b-8 border-b-blue-900 shadow-md">
+                <h2 class="text-4xl font-bold tracking-tight flex items-center gap-3">
+                    <i class="fas fa-graduation-cap"></i> Grade 11 Physics - Complete Notes Based On NEB Syllabus
+                </h2>
+            </div>
+
             <div class="mb-20">
                 <h3 class="section-header text-white px-6 py-3 rounded-2xl inline-block font-semibold mb-6">Mechanics</h3>
                 <div id="g11-mechanics" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
-            <div>
+            <div class="mb-20">
                 <h3 class="section-header text-white px-6 py-3 rounded-2xl inline-block font-semibold mb-6">Heat and Thermodynamics</h3>
                 <div id="g11-heat" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+            <div class="mb-20">
+                <h3 class="section-header text-white px-6 py-3 rounded-2xl inline-block font-semibold mb-6">Wave and Optics</h3>
+                <div id="g11-wave" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+            <div class="mb-20">
+                <h3 class="section-header text-white px-6 py-3 rounded-2xl inline-block font-semibold mb-6">Electricity and Magnetism</h3>
+                <div id="g11-electricity" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+            <div>
+                <h3 class="section-header text-white px-6 py-3 rounded-2xl inline-block font-semibold mb-6">Modern Physics</h3>
+                <div id="g11-modern" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
         </div>
     </section>
 
-    <!-- Grade 12 -->
-    <section id="grade12" class="py-20 bg-white">
+    <section id="grade12" class="py-20 bg-white border-b-4 border-slate-200">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-16 text-center">Grade 12 Physics - Complete Notes Based on NEB Syllabus</h2>
+            <div class="bg-gradient-to-r from-indigo-600 to-blue-700 text-white rounded-3xl p-8 mb-16 border-b-8 border-b-indigo-900 shadow-md">
+                <h2 class="text-4xl font-bold tracking-tight flex items-center gap-3">
+                    <i class="fas fa-book"></i> Grade 12 Physics - Complete Notes Based on NEB Syllabus
+                </h2>
+            </div>
 
             <div class="mb-16">
                 <h3 class="section-header text-white px-6 py-3 rounded-2xl inline-block font-semibold mb-6">Mechanics</h3>
@@ -125,7 +169,30 @@
         </div>
     </section>
 
-    <!-- QR Payment Modal -->
+    <section id="questions" class="py-20 bg-slate-50 border-b-4 border-slate-200">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="bg-gradient-to-r from-amber-50 via-orange-50 to-transparent border border-amber-200 rounded-3xl p-8 mb-6 border-b-4 border-b-amber-600 shadow-sm">
+                <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
+                    <i class="fas fa-question-circle text-amber-600"></i> Question Collections
+                </h2>
+            </div>
+            <p class="text-slate-600 mb-16 max-w-2xl px-2">Access complete sets of exam guidelines and practice questions designed to help you prepare effectively for your exams.</p>
+            <div id="question-collections-container" class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"></div>
+        </div>
+    </section>
+
+    <section id="syllabus" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-transparent border border-emerald-200 rounded-3xl p-8 mb-6 border-b-4 border-b-emerald-600 shadow-sm">
+                <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
+                    <i class="fas fa-scroll text-emerald-600"></i> NEB Syllabus - Physics
+                </h2>
+            </div>
+            <p class="text-slate-600 mb-16 max-w-2xl px-2">Download the official curriculum requirements structure and marking scheme updates directly for free.</p>
+            <div id="neb-syllabus-container" class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"></div>
+        </div>
+    </section>
+
     <div id="paymentModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
         <div class="bg-white rounded-3xl max-w-md w-full mx-4 p-8 text-center">
             <h3 class="font-bold text-2xl mb-4">Pay NPR 50</h3>
@@ -142,7 +209,6 @@
         </div>
     </div>
 
-    <!-- Admin Panel -->
     <div id="adminPanel" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[110]">
         <div class="bg-white rounded-3xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-hidden flex flex-col">
             <div class="p-6 border-b flex justify-between items-center bg-slate-50">
@@ -154,6 +220,16 @@
     </div>
 
     <script>
+        const getBasePath = () => {
+            const loc = window.location;
+            if (loc.hostname.includes("github.io")) {
+                const repoName = loc.pathname.split("/")[1];
+                return `${loc.origin}/${repoName}/`;
+            }
+            return "./";
+        };
+        const BASE_URL = getBasePath();
+
         // ================== CHAPTER DATA ==================
         const g11Mechanics = [
             {id: "g11_1", title: "Physical Quantities", unit: "Mechanics"},
@@ -168,8 +244,32 @@
 
         const g11Heat = [
             {id: "g11_9", title: "Heat and Temperature", unit: "Heat and Thermodynamics"},
-            {id: "g11_10", title: "Thermodynamics", unit: "Heat and Thermodynamics"},
-            {id: "g11_11", title: "Kinetic Theory of Gases", unit: "Heat and Thermodynamics"}
+            {id: "g11_10", title: "Thermal Expansion", unit: "Heat and Thermodynamics"},
+            {id: "g11_11", title: "Quantity of Heat", unit: "Heat and Thermodynamics"},
+            {id: "g11_12", title: "Rate of Heat Flow", unit: "Heat and Thermodynamics"},
+            {id: "g11_13", title: "Ideal Gas", unit: "Heat and Thermodynamics"}
+        ];
+
+        const g11Wave = [
+            {id: "g11_14", title: "Reflection at Curved Mirrors", unit: "Wave and Optics"},
+            {id: "g11_15", title: "Refraction at Plane Surfaces", unit: "Wave and Optics"},
+            {id: "g11_16", title: "Refraction through Prisms", unit: "Wave and Optics"},
+            {id: "g11_17", title: "Lenses", unit: "Wave and Optics"},
+            {id: "g11_18", title: "Dispersion of Light", unit: "Wave and Optics"}
+        ];
+
+        const g11Electricity = [
+            {id: "g11_19", title: "Electric Charges", unit: "Electricity and Magnetism"},
+            {id: "g11_20", title: "Electric Field", unit: "Electricity and Magnetism"},
+            {id: "g11_21", title: "Electric Potential", unit: "Electricity and Magnetism"},
+            {id: "g11_22", title: "Capacitors", unit: "Electricity and Magnetism"},
+            {id: "g11_23", title: "DC Circuits", unit: "Electricity and Magnetism"}
+        ];
+
+        const g11Modern = [
+            {id: "g11_24", title: "Nuclear Physics", unit: "Modern Physics"},
+            {id: "g11_25", title: "Solids", unit: "Modern Physics"},
+            {id: "g11_26", title: "Recent Trends in Physics", unit: "Modern Physics"}
         ];
 
         const g12Mechanics = [
@@ -212,107 +312,131 @@
             {id: "g12_25", title: "Recent Trends in Physics", unit: "Modern Physics"}
         ];
 
- 
-    let pendingPayments = [];
-    let currentPayChapter = null;
+        const questionCollectionsData = [
+            {id: "q_g11", title: "Grade 11 Question Collection", unit: "Question Collections", path: "questions/grade11.pdf"},
+            {id: "q_g12", title: "Grade 12 Question Collection", unit: "Question Collections", path: "questions/grade12.pdf"}
+        ];
 
-    async function createChapterCard(ch) {
-    const unlocked = localStorage.getItem(ch.id) === 'unlocked';
-    const card = document.createElement('div');
-    card.className = `bg-white border border-slate-200 rounded-3xl p-7 hover:-translate-y-1 transition-all`;
-    
-    card.innerHTML = `
-        <div class="flex justify-between mb-6">
-            <div>
-                <span class="text-xs bg-slate-100 px-3 py-1 rounded">${ch.unit}</span>
-                <h4 class="font-semibold text-xl mt-3">${ch.title}</h4>
-            </div>
-            <i class="fas fa-file-pdf text-4xl text-red-500"></i>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-            <button onclick="viewPDF('${ch.id}')" 
-                    class="py-3 border border-slate-300 hover:bg-slate-50 rounded-2xl font-medium">
-                View Online
-            </button>
-            <button onclick="${unlocked ? `downloadPDF('${ch.id}')` : `showPaymentModal({id:'${ch.id}', title:'${ch.title}'})`}" 
-                    class="${unlocked ? 'bg-emerald-600' : 'bg-blue-600'} text-white py-3 rounded-2xl font-medium">
-                ${unlocked ? '✅ Download PDF' : 'Pay NPR 50'}
-            </button>
-        </div>
-    `;
-    return card;
-}
+        const nebSyllabusData = [
+            {id: "s_g11", title: "Grade 11 Physics Syllabus", unit: "NEB Syllabus", path: "syllabus/grade11.pdf"},
+            {id: "s_g12", title: "Grade 12 Physics Syllabus", unit: "NEB Syllabus", path: "syllabus/grade12.pdf"}
+        ];
 
-// Protected View (Modified with Anti-Download, Anti-Right Click and Secure Google Drive Preview compatibility)
-function viewPDF(chapterId) {
-    // Note: To map to Google Drive, replace the pdfUrl with your Drive preview link using preview/embed mode:
-    // Example format: 'https://drive.google.com/file/d/YOUR_FILE_ID/preview'
-    const pdfUrl = `pdfs/${chapterId}.pdf`; 
-    
-    const win = window.open('', '_blank');
-    win.document.write(`
-        <html>
-        <head>
-            <title>${chapterId} - BA Sir Physics Notes</title>
-            <style>
-                body, html { margin:0; padding:0; height:100%; overflow:hidden; background:#f1f5f9; user-select: none; -webkit-user-select: none; }
-                .viewer-container { width:100%; height:calc(100vh - 40px); margin-top:40px; position:relative; }
-                iframe { width:100%; height:100%; border:none; }
-                .header {
-                    position: fixed; top: 0; left: 0; right: 0; background: #1e40af; 
-                    color: white; padding: 10px; text-align: center; z-index: 100;
-                    font-size: 14px; font-family: sans-serif; font-weight: bold;
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-                }
-                /* Transparent overlay to intercept mouse interactions, right clicks, and selection boxes on top of the iframe area */
-                .protection-overlay {
-                    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                    background: transparent; z-index: 99;
-                }
-            </style>
-            <script>
-                // Disable context menu (Right Click)
-                document.addEventListener('contextmenu', function(e) {
-                    e.preventDefault();
-                    alert('Right-click is disabled to protect content distribution.');
-                });
+        let pendingPayments = [];
+        let currentPayChapter = null;
 
-                // Disable keyboard shortcut combinations for Save (Ctrl+S), Print (Ctrl+P), and Copy (Ctrl+C)
-                document.addEventListener('keydown', function(e) {
-                    if (e.ctrlKey && (e.key === 's' || e.key === 'S' || e.key === 'p' || e.key === 'P' || e.key === 'c' || e.key === 'C')) {
-                        e.preventDefault();
-                        alert('This action is disabled to protect unauthorized saving and distribution.');
-                    }
-                });
-            <\/script>
-        </head>
-        <body oncontextmenu="return false;">
-            <div class="header">BA Sir NEB Physics Notes • Protected Document Online Viewer • Saving or Distributing is strictly prohibited</div>
-            <div class="viewer-container">
-                <!-- Overlay blocks direct interface access like right clicks over the PDF container -->
-                <div class="protection-overlay" oncontextmenu="return false;"></div>
-                <!-- Embedded Frame -->
-                <iframe src="${pdfUrl}" oncontextmenu="return false;"></iframe>
-            </div>
-        </body>
-        </html>
-    `);
-    win.document.close();
-}
+        async function createChapterCard(ch) {
+            const unlocked = localStorage.getItem(ch.id) === 'unlocked';
+            const card = document.createElement('div');
+            card.className = `bg-white border border-slate-200 rounded-3xl p-7 hover:-translate-y-1 transition-all`;
+            
+            const resolvedPath = ch.path ? `${BASE_URL}${ch.path}` : `${BASE_URL}pdfs/${ch.id}.pdf`;
 
-// Download (only for unlocked users)
-function downloadPDF(chapterId) {
-    const link = document.createElement('a');
-    link.href = `pdfs/${chapterId}.pdf`;
-    link.download = `${chapterId}.pdf`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
+            card.innerHTML = `
+                <div class="flex justify-between mb-6">
+                    <div>
+                        <span class="text-xs bg-slate-100 px-3 py-1 rounded">${ch.unit}</span>
+                        <h4 class="font-semibold text-xl mt-3">${ch.title}</h4>
+                    </div>
+                    <i class="fas fa-file-pdf text-4xl text-red-500"></i>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="viewPDF('${ch.id}', '${resolvedPath}')" 
+                            class="py-3 border border-slate-300 hover:bg-slate-50 rounded-2xl font-medium">
+                        View Online
+                    </button>
+                    <button onclick="${unlocked ? `downloadPDF('${ch.id}', '${resolvedPath}')` : `showPaymentModal({id:'${ch.id}', title:'${ch.title}', path:'${resolvedPath}'})`}" 
+                            class="${unlocked ? 'bg-emerald-600' : 'bg-blue-600'} text-white py-3 rounded-2xl font-medium">
+                        ${unlocked ? '✅ Download PDF' : 'Pay NPR 50'}
+                    </button>
+                </div>
+            `;
+            return card;
+        }
 
-    // ... (keep all other functions: showPaymentModal, paymentCompleted, showAdminPanel, etc.)
+        function createFreeCard(item) {
+            const card = document.createElement('div');
+            card.className = `bg-white border border-slate-200 rounded-3xl p-7 hover:-translate-y-1 transition-all`;
+            const resolvedPath = `${BASE_URL}${item.path}`;
 
-function showPaymentModal(chapter) {
+            card.innerHTML = `
+                <div class="flex justify-between mb-6">
+                    <div>
+                        <span class="text-xs bg-emerald-50 text-emerald-700 px-3 py-1 rounded font-medium">${item.unit}</span>
+                        <h4 class="font-semibold text-xl mt-3">${item.title}</h4>
+                    </div>
+                    <i class="fas fa-file-pdf text-4xl text-emerald-600"></i>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <a href="${resolvedPath}" target="_blank" 
+                       class="py-3 text-center border border-slate-300 hover:bg-slate-50 rounded-2xl font-medium block">
+                        View Online
+                    </a>
+                    <a href="${resolvedPath}" download class="bg-emerald-600 text-center hover:bg-emerald-700 text-white py-3 rounded-2xl font-medium block">
+                        💾 Save PDF
+                    </a>
+                </div>
+            `;
+            return card;
+        }
+
+        function viewPDF(chapterId, pdfUrl) {
+            const win = window.open('', '_blank');
+            win.document.write(`
+                <html>
+                <head>
+                    <title>${chapterId} - BA Sir Physics Document</title>
+                    <style>
+                        body, html { margin:0; padding:0; height:100%; overflow:hidden; background:#f1f5f9; user-select: none; -webkit-user-select: none; }
+                        .viewer-container { width:100%; height:calc(100vh - 40px); margin-top:40px; position:relative; }
+                        iframe { width:100%; height:100%; border:none; }
+                        .header {
+                            position: fixed; top: 0; left: 0; right: 0; background: #1e40af; 
+                            color: white; padding: 10px; text-align: center; z-index: 100;
+                            font-size: 14px; font-family: sans-serif; font-weight: bold;
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                        }
+                        .protection-overlay {
+                            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                            background: transparent; z-index: 99;
+                        }
+                    </style>
+                    <script>
+                        document.addEventListener('contextmenu', function(e) {
+                            e.preventDefault();
+                            alert('Right-click is disabled to protect content distribution.');
+                        });
+
+                        document.addEventListener('keydown', function(e) {
+                            if (e.ctrlKey && (e.key === 's' || e.key === 'S' || e.key === 'p' || e.key === 'P' || e.key === 'c' || e.key === 'C')) {
+                                e.preventDefault();
+                                alert('This action is disabled to protect unauthorized saving and distribution.');
+                            }
+                        });
+                    <\/script>
+                </head>
+                <body oncontextmenu="return false;">
+                    <div class="header">BA Sir NEB Physics Notes • Protected Document Online Viewer • Saving or Distributing is strictly prohibited</div>
+                    <div class="viewer-container">
+                        <div class="protection-overlay" oncontextmenu="return false;"></div>
+                        <iframe src="${pdfUrl}" oncontextmenu="return false;"></iframe>
+                    </div>
+                </body>
+                </html>
+            `);
+            win.document.close();
+        }
+
+        function downloadPDF(chapterId, pdfUrl) {
+            const link = document.createElement('a');
+            link.href = pdfUrl;
+            link.download = pdfUrl.split('/').pop();
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function showPaymentModal(chapter) {
             currentPayChapter = chapter;
             document.getElementById('paymentModal').classList.remove('hidden');
         }
@@ -374,22 +498,29 @@ function showPaymentModal(chapter) {
             renderPendingList();
         }
 
-    // Populate Chapters
-    async function populateChapters() {
-        // Grade 11
-        g11Mechanics.forEach(async ch => document.getElementById('g11-mechanics').appendChild(await createChapterCard(ch)));
-        g11Heat.forEach(async ch => document.getElementById('g11-heat').appendChild(await createChapterCard(ch)));
+        async function populateChapters() {
+            // Grade 11
+            for (const ch of g11Mechanics) document.getElementById('g11-mechanics').appendChild(await createChapterCard(ch));
+            for (const ch of g11Heat) document.getElementById('g11-heat').appendChild(await createChapterCard(ch));
+            for (const ch of g11Wave) document.getElementById('g11-wave').appendChild(await createChapterCard(ch));
+            for (const ch of g11Electricity) document.getElementById('g11-electricity').appendChild(await createChapterCard(ch));
+            for (const ch of g11Modern) document.getElementById('g11-modern').appendChild(await createChapterCard(ch));
 
-        // Grade 12
-        g12Mechanics.forEach(async ch => document.getElementById('g12-mechanics').appendChild(await createChapterCard(ch)));
-        g12Heat.forEach(async ch => document.getElementById('g12-heat').appendChild(await createChapterCard(ch)));
-        g12Wave.forEach(async ch => document.getElementById('g12-wave').appendChild(await createChapterCard(ch)));
-        g12Electricity.forEach(async ch => document.getElementById('g12-electricity').appendChild(await createChapterCard(ch)));
-        g12Modern.forEach(async ch => document.getElementById('g12-modern').appendChild(await createChapterCard(ch)));
-    }
+            // Grade 12
+            for (const ch of g12Mechanics) document.getElementById('g12-mechanics').appendChild(await createChapterCard(ch));
+            for (const ch of g12Heat) document.getElementById('g12-heat').appendChild(await createChapterCard(ch));
+            for (const ch of g12Wave) document.getElementById('g12-wave').appendChild(await createChapterCard(ch));
+            for (const ch of g12Electricity) document.getElementById('g12-electricity').appendChild(await createChapterCard(ch));
+            for (const ch of g12Modern) document.getElementById('g12-modern').appendChild(await createChapterCard(ch));
 
-    window.onload = populateChapters;
-</script>
+            // Question Collections
+            for (const qc of questionCollectionsData) document.getElementById('question-collections-container').appendChild(await createChapterCard(qc));
 
+            // NEB Syllabus
+            nebSyllabusData.forEach(item => document.getElementById('neb-syllabus-container').appendChild(createFreeCard(item)));
+        }
+
+        window.onload = populateChapters;
+    </script>
 </body>
 </html>
