@@ -6,6 +6,7 @@
     <title>Learn Physics with BA Sir</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_PUBLISHER_ID_HERE" crossorigin="anonymous"></script>
     <style>
         body { font-family: 'Inter', system_ui, sans-serif; }
         .hero-bg { background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://picsum.photos/id/1015/1920/1080') center/cover; }
@@ -63,6 +64,12 @@
             background: #0f172a !important;
         }
 
+        /* Mobile Screenshot Interception Overlay (Triggers on blur/visibility events during short cuts) */
+        .mobile-capture-shield {
+            background: #0b0f19 !important;
+            filter: blur(100px) invert(1) contrast(200%) !important;
+        }
+
         /* Zoom and Scroll Handling Support Classes */
         .zoom-scroll-viewport {
             overflow: auto !important;
@@ -85,6 +92,16 @@
 </head>
 <body class="bg-slate-50 text-slate-800 no-select" oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
 
+    <div class="fixed bottom-6 right-6 z-[90] flex items-center gap-2 bg-slate-900/90 backdrop-blur border border-slate-700 p-2 rounded-2xl shadow-2xl">
+        <button onclick="executeStepBackwards()" id="stepBackNavBtn" class="bg-slate-800 hover:bg-slate-700 text-white w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold opacity-50 cursor-not-allowed transition-all" title="Step Back">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="h-4 w-[1px] bg-slate-700 mx-1"></div>
+        <button onclick="executeStepForwards()" id="stepForwardNavBtn" class="bg-slate-800 hover:bg-slate-700 text-white w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold opacity-50 cursor-not-allowed transition-all" title="Step Forward">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+
     <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -95,14 +112,14 @@
                 </div>
             </div>
             <div class="flex items-center gap-6 text-sm font-medium">
-                <a href="#home" class="hover:text-blue-600">Home</a>
-                <a href="#grade11" class="hover:text-blue-600">Grade 11</a>
-                <a href="#grade12" class="hover:text-blue-600">Grade 12</a>
-                <a href="#questions" class="hover:text-blue-600">Questions</a>
-                <a href="#books" class="hover:text-blue-600">Books</a>
-                <a href="#syllabus" class="hover:text-blue-600">Syllabus</a>
-                <a href="#charts" class="hover:text-blue-600">Specification Chart</a>
-                <a href="#about" class="hover:text-blue-600">About</a>
+                <a href="#home" class="hover:text-blue-600 block-nav-link">Home</a>
+                <a href="#grade11" class="hover:text-blue-600 block-nav-link">Grade 11</a>
+                <a href="#grade12" class="hover:text-blue-600 block-nav-link">Grade 12</a>
+                <a href="#questions" class="hover:text-blue-600 block-nav-link">Questions</a>
+                <a href="#books" class="hover:text-blue-600 block-nav-link">Books</a>
+                <a href="#syllabus" class="hover:text-blue-600 block-nav-link">Syllabus</a>
+                <a href="#charts" class="hover:text-blue-600 block-nav-link">Specification Chart</a>
+                <a href="#about" class="hover:text-blue-600 block-nav-link">About</a>
                 
                 <div id="authStatusBlock" class="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-2xl border">
                     <span id="userGreeting" class="text-xs text-slate-600 max-w-[100px] truncate">Guest Mode</span>
@@ -126,6 +143,18 @@
             </div>
         </div>
     </section>
+
+    <div class="max-w-7xl mx-auto my-6 px-6">
+        <div class="bg-white border rounded-2xl p-2 shadow-sm text-center">
+            <ins class="adsbygoogle"
+                 style="display:block; text-align:center;"
+                 data-ad-layout="in-article"
+                 data-ad-format="fluid"
+                 data-ad-client="ca-pub-YOUR_ADSENSE_PUBLISHER_ID_HERE"
+                 data-ad-slot="YOUR_ADSENSE_SLOT_ID_HERE"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
 
     <div class="bg-blue-600 text-white py-3 shadow-md overflow-hidden">
         <marquee behavior="scroll" direction="left" class="text-lg font-bold tracking-wide">
@@ -261,6 +290,16 @@
             </div>
         </div>
     </section>
+
+    <div class="max-w-7xl mx-auto my-6 px-6">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-YOUR_ADSENSE_PUBLISHER_ID_HERE"
+             data-ad-slot="YOUR_ADSENSE_SLOT_ID_HERE"
+             data-ad-format="auto"
+             full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
 
     <section id="grade12" class="py-20 bg-white border-b-4 border-slate-200">
         <div class="max-w-7xl mx-auto px-6">
@@ -459,12 +498,62 @@
     </div>
 
     <div id="adminPanel" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[110]">
-        <div class="bg-white rounded-3xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-hidden flex flex-col">
+        <div class="bg-white rounded-3xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden flex flex-col">
             <div class="p-6 border-b flex justify-between items-center bg-slate-50">
-                <h3 class="font-bold text-2xl">Pending Payments Dashboard</h3>
-                <button onclick="hideAdminPanel()" class="text-3xl">×</button>
+                <div>
+                    <h3 class="font-bold text-2xl">Administrative Dashboard</h3>
+                    <p class="text-xs text-slate-500 mt-0.5">Control pipeline monitoring & analytics parameters</p>
+                </div>
+                <button onclick="hideAdminPanel()" class="text-3xl font-light hover:text-slate-600">×</button>
             </div>
-            <div id="pendingList" class="flex-1 overflow-auto p-6 space-y-4"></div>
+            
+            <div class="flex bg-slate-100 border-b text-sm font-semibold select-none">
+                <button id="adminPaymentsTabHead" onclick="switchAdminSubPanel('PAYMENTS')" class="px-6 py-3 border-b-2 border-blue-600 text-blue-600">Pending Payments</button>
+                <button id="adminAnalyticsTabHead" onclick="switchAdminSubPanel('ANALYTICS')" class="px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800">Visitor Tracking & Analytics</button>
+            </div>
+
+            <div class="flex-1 overflow-auto p-6">
+                <div id="adminPaymentsPanelBlock" class="space-y-4">
+                    <div id="pendingList" class="space-y-4"></div>
+                </div>
+
+                <div id="adminAnalyticsPanelBlock" class="hidden space-y-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-center">
+                            <span class="block text-xs font-bold text-blue-600 uppercase tracking-wider">Total Page Views</span>
+                            <span id="metricPageViewsVal" class="block text-3xl font-black text-blue-900 mt-1">1</span>
+                        </div>
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
+                            <span class="block text-xs font-bold text-emerald-600 uppercase tracking-wider">Unique Sessions</span>
+                            <span id="metricSessionsVal" class="block text-3xl font-black text-emerald-900 mt-1">1</span>
+                        </div>
+                        <div class="bg-purple-50 border border-purple-200 rounded-2xl p-4 text-center">
+                            <span class="block text-xs font-bold text-purple-600 uppercase tracking-wider">Module Clicks</span>
+                            <span id="metricClicksVal" class="block text-3xl font-black text-purple-900 mt-1">0</span>
+                        </div>
+                        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-center">
+                            <span class="block text-xs font-bold text-amber-600 uppercase tracking-wider">Registered Users</span>
+                            <span id="metricRegUsersVal" class="block text-3xl font-black text-amber-900 mt-1">0</span>
+                        </div>
+                    </div>
+
+                    <div class="border rounded-2xl p-5 bg-slate-50">
+                        <h4 class="font-bold text-sm text-slate-800 mb-3 uppercase tracking-wide flex items-center gap-2">
+                            <i class="fas fa-chart-line text-blue-600"></i> Chapter Interaction Heat Log Map
+                        </h4>
+                        <div id="analyticsChapterInteractionModeLogs" class="space-y-2 max-h-[160px] overflow-auto text-xs font-medium">
+                            <p class="text-slate-500 text-center py-4">No specific tracking interactions intercepted yet.</p>
+                        </div>
+                    </div>
+
+                    <div class="border rounded-2xl p-5 bg-slate-50">
+                        <h4 class="font-bold text-sm text-slate-800 mb-3 uppercase tracking-wide flex items-center gap-2">
+                            <i class="fas fa-laptop-code text-slate-700"></i> Intercepted Environment Footprints
+                        </h4>
+                        <div id="analyticsDeviceLogsContainer" class="space-y-2 max-h-[160px] overflow-auto text-xs font-mono text-slate-600"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -540,6 +629,192 @@
             currentSessionAccountID: null,
             activeAuthenticationTab: 'LOGIN'
         };
+
+        // ================== STEP HISTORY NAVIGATION ENGINE DATA METRICS ==================
+        let structuralNavigationHistoryStack = [];
+        let structuralNavigationForwardHistoryStack = [];
+        let executionBlockSystemInternalTrackingFlag = false;
+
+        // Injects context trackers securely into execution flows
+        function logInteractionStep(type, targetIdentifier, humanLabel = '') {
+            if (executionBlockSystemInternalTrackingFlag) return;
+            
+            const actionNode = { type, target: targetIdentifier, label: humanLabel, timestamp: Date.now() };
+            structuralNavigationHistoryStack.push(actionNode);
+            structuralNavigationForwardHistoryStack = []; // Reset standard forward tree lookups on explicit new interactions
+            synchronizeNavigationDockControllers();
+
+            // Fire Analytical Interceptors concurrently
+            registerInternalAnalyticsMetricClick(targetIdentifier, humanLabel);
+        }
+
+        function synchronizeNavigationDockControllers() {
+            const backBtn = document.getElementById('stepBackNavBtn');
+            const forwardBtn = document.getElementById('stepForwardNavBtn');
+            
+            if (structuralNavigationHistoryStack.length > 1) {
+                backBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                backBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+
+            if (structuralNavigationForwardHistoryStack.length > 0) {
+                forwardBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            } else {
+                forwardBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function executeStepBackwards() {
+            if (structuralNavigationHistoryStack.length <= 1) return;
+            
+            executionBlockSystemInternalTrackingFlag = true;
+            const currentStep = structuralNavigationHistoryStack.pop();
+            structuralNavigationForwardHistoryStack.push(currentStep);
+            
+            const targetStep = structuralNavigationHistoryStack[structuralNavigationHistoryStack.length - 1];
+            executeStructuralStepTransition(targetStep);
+            
+            executionBlockSystemInternalTrackingFlag = false;
+            synchronizeNavigationDockControllers();
+        }
+
+        function executeStepForwards() {
+            if (structuralNavigationForwardHistoryStack.length === 0) return;
+            
+            executionBlockSystemInternalTrackingFlag = true;
+            const nextStep = structuralNavigationForwardHistoryStack.pop();
+            structuralNavigationHistoryStack.push(nextStep);
+            
+            executeStructuralStepTransition(nextStep);
+            
+            executionBlockSystemInternalTrackingFlag = false;
+            synchronizeNavigationDockControllers();
+        }
+
+        function executeStructuralStepTransition(stepNode) {
+            if (stepNode.type === 'SECTION') {
+                if (!document.getElementById('secureViewerPortal').classList.contains('hidden')) {
+                    closeSecurePortalInternal();
+                }
+                const targetEl = document.getElementById(stepNode.target);
+                if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
+            } else if (stepNode.type === 'PDF') {
+                openSecurePortalInternal(stepNode.label, stepNode.target);
+            }
+        }
+
+        // ================== ANALYTICS ENGINE TRACKING FRAMEWORK LOCAL STORAGE ==================
+        function initializeAnalyticsFrameworkEngineMetrics() {
+            let stats = localStorage.getItem('baSir_EcosystemSystemAnalyticsStats');
+            if (!stats) {
+                stats = {
+                    totalPageViews: 1,
+                    uniqueSessions: 1,
+                    moduleInteractionsMap: {},
+                    capturedDeviceLogFootprints: []
+                };
+                localStorage.setItem('baSir_EcosystemSystemAnalyticsStats', JSON.stringify(stats));
+            } else {
+                let parsed = JSON.parse(stats);
+                parsed.totalPageViews += 1;
+                localStorage.setItem('baSir_EcosystemSystemAnalyticsStats', JSON.stringify(parsed));
+            }
+
+            // Log browser dimensions environmental metadata fingerprint values
+            interceptDeviceTelemetryEnvironmentMetrics();
+        }
+
+        function interceptDeviceTelemetryEnvironmentMetrics() {
+            let stats = JSON.parse(localStorage.getItem('baSir_EcosystemSystemAnalyticsStats'));
+            const recordLogNode = {
+                timestamp: new Date().toLocaleString(),
+                agent: navigator.userAgent,
+                resolution: `${window.screen.width}x${window.screen.height}`,
+                language: navigator.language
+            };
+            stats.capturedDeviceLogFootprints.unshift(recordLogNode);
+            if (stats.capturedDeviceLogFootprints.length > 40) stats.capturedDeviceLogFootprints.pop();
+            localStorage.setItem('baSir_EcosystemSystemAnalyticsStats', JSON.stringify(stats));
+        }
+
+        function registerInternalAnalyticsMetricClick(id, label) {
+            let stats = JSON.parse(localStorage.getItem('baSir_EcosystemSystemAnalyticsStats')) || {};
+            if (!stats.moduleInteractionsMap) stats.moduleInteractionsMap = {};
+            
+            stats.moduleInteractionsMap[id] = (stats.moduleInteractionsMap[id] || 0) + 1;
+            localStorage.setItem('baSir_EcosystemSystemAnalyticsStats', JSON.stringify(stats));
+        }
+
+        function switchAdminSubPanel(targetView) {
+            const paymentsTab = document.getElementById('adminPaymentsTabHead');
+            const analyticsTab = document.getElementById('adminAnalyticsTabHead');
+            const paymentsBlock = document.getElementById('adminPaymentsPanelBlock');
+            const analyticsBlock = document.getElementById('adminAnalyticsPanelBlock');
+
+            if (targetView === 'PAYMENTS') {
+                paymentsTab.className = "px-6 py-3 border-b-2 border-blue-600 text-blue-600";
+                analyticsTab.className = "px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800";
+                paymentsBlock.classList.remove('hidden');
+                analyticsBlock.classList.add('hidden');
+            } else {
+                analyticsTab.className = "px-6 py-3 border-b-2 border-blue-600 text-blue-600";
+                paymentsTab.className = "px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800";
+                analyticsBlock.classList.remove('hidden');
+                paymentsBlock.classList.add('hidden');
+                renderAdminAnalyticsDashboardViewports();
+            }
+        }
+
+        function renderAdminAnalyticsDashboardViewports() {
+            const stats = JSON.parse(localStorage.getItem('baSir_EcosystemSystemAnalyticsStats')) || {};
+            const registry = JSON.parse(localStorage.getItem('baSir_ClientRegistryDatabase')) || {};
+
+            document.getElementById('metricPageViewsVal').innerText = stats.totalPageViews || 1;
+            document.getElementById('metricSessionsVal').innerText = stats.uniqueSessions || 1;
+            
+            let clickAggregate = 0;
+            if (stats.moduleInteractionsMap) {
+                Object.values(stats.moduleInteractionsMap).forEach(v => clickAggregate += v);
+            }
+            document.getElementById('metricClicksVal').innerText = clickAggregate;
+            document.getElementById('metricRegUsersVal').innerText = Object.keys(registry).length || 0;
+
+            // Generate Heatmap Interface Rows
+            const interactionLogContainer = document.getElementById('analyticsChapterInteractionModeLogs');
+            if (stats.moduleInteractionsMap && Object.keys(stats.moduleInteractionsMap).length > 0) {
+                let html = '';
+                Object.entries(stats.moduleInteractionsMap).forEach(([k, v]) => {
+                    html += `
+                        <div class="flex justify-between items-center bg-white p-2 border border-slate-200 rounded-xl">
+                            <span class="font-mono font-bold text-slate-700">${k}</span>
+                            <span class="bg-blue-600 text-white font-extrabold px-2 py-0.5 rounded-lg text-[10px]">${v} Hits</span>
+                        </div>`;
+                });
+                interactionLogContainer.innerHTML = html;
+            } else {
+                interactionLogContainer.innerHTML = `<p class="text-slate-500 text-center py-4">No specific tracking interactions intercepted yet.</p>`;
+            }
+
+            // Generate Environmental Footprints Container Viewport Rows
+            const deviceLogsContainer = document.getElementById('analyticsDeviceLogsContainer');
+            if (stats.capturedDeviceLogFootprints && stats.capturedDeviceLogFootprints.length > 0) {
+                let html = '';
+                stats.capturedDeviceLogFootprints.forEach(log => {
+                    html += `
+                        <div class="bg-white p-2.5 border border-slate-200 rounded-xl space-y-1">
+                            <div class="flex justify-between font-bold text-slate-800 text-[10px]">
+                                <span>${log.timestamp}</span>
+                                <span class="text-indigo-600">${log.resolution}</span>
+                            </div>
+                            <p class="text-[10px] text-slate-400 truncate tracking-tight">${log.agent}</p>
+                        </div>`;
+                });
+                deviceLogsContainer.innerHTML = html;
+            } else {
+                deviceLogsContainer.innerHTML = `<p class="text-slate-500 text-center py-4">No environment logs cached.</p>`;
+            }
+        }
 
         // Initialize user database structure in local store if empty
         if (!localStorage.getItem('baSir_ClientRegistryDatabase')) {
@@ -762,6 +1037,12 @@
 
         // Secure Online Viewer portal executing rendering pipeline updates
         function openSecurePortal(title, pdfUrl) {
+            // Log this action node inside step navigation stack securely
+            logInteractionStep('PDF', pdfUrl, title);
+            openSecurePortalInternal(title, pdfUrl);
+        }
+
+        function openSecurePortalInternal(title, pdfUrl) {
             document.getElementById('securePortalTitle').innerText = `🔒 Protected Online Mode: ${title}`;
             
             let builtViewUrl = pdfUrl;
@@ -788,6 +1069,12 @@
         }
 
         function closeSecurePortal() {
+            // Restore contextual fallback section node onto navigation historical track maps
+            logInteractionStep('SECTION', 'home', 'Home Section');
+            closeSecurePortalInternal();
+        }
+
+        function closeSecurePortalInternal() {
             document.getElementById('secureViewerFrame').src = "";
             document.getElementById('secureViewerPortal').classList.add('hidden');
             document.body.style.overflow = 'auto';
@@ -848,12 +1135,12 @@
 
         function applySnippingShieldVisualMask() {
             const sandbox = document.getElementById('secureViewerSandboxWrapper');
-            if (sandbox) sandbox.classList.add('snipping-detected');
+            if (sandbox) sandbox.classList.add('snipping-detected', 'mobile-capture-shield');
         }
 
         function removeSnippingShieldVisualMask() {
             const sandbox = document.getElementById('secureViewerSandboxWrapper');
-            if (sandbox) sandbox.classList.remove('snipping-detected');
+            if (sandbox) sandbox.classList.remove('snipping-detected', 'mobile-capture-shield');
         }
 
         function handleVisibilityProtectionShift() {
@@ -936,6 +1223,7 @@
             if (passwordFieldValue === "basir@1218") {
                 hideAdminPasswordModal();
                 document.getElementById('adminPanel').classList.remove('hidden');
+                switchAdminSubPanel('PAYMENTS');
                 renderPendingList();
             } else {
                 alert("Access Denied: Invalid Administrative Identity Security Authorization Token Credentials.");
@@ -1113,7 +1401,21 @@
             nebChartsData.forEach(item => document.getElementById('neb-charts-container').appendChild(createFreeCard(item)));
         }
 
-        window.onload = populateChapters;
+        window.onload = () => {
+            populateChapters();
+            initializeAnalyticsFrameworkEngineMetrics();
+            
+            // Set primary contextual state point
+            logInteractionStep('SECTION', 'home', 'Home Section');
+
+            // Hook native click interactions onto top navigation element structures safely
+            document.querySelectorAll('.block-nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const cleanTargetId = this.getAttribute('href').replace('#', '');
+                    logInteractionStep('SECTION', cleanTargetId, this.innerText);
+                });
+            });
+        };
     </script>
 </body>
 </html>
