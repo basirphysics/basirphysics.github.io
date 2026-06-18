@@ -13,7 +13,7 @@
         .profile-img { border: 5px solid white; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
         .section-header { background: linear-gradient(to right, #1e40af, #2563eb, #3b82f6); box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
         
-        /* Strict Content Protection Styling Rules */
+        /* Screenshot/Recording Deterrence Measures & Content Protection Styling */
         .no-select {
             -webkit-touch-callout: none !important;
             -webkit-user-select: none !important;
@@ -23,17 +23,13 @@
             user-select: none !important;
         }
         
-        @media sepia {
-            body { filter: brightness(1); }
-        }
-        
         @media print {
             body { display: none !important; }
             html { display: none !important; }
             #secureViewerPortal { display: none !important; }
         }
 
-        /* Dynamic Visual Interception Watermark Layer to degrade automated OCR & Snipping captures */
+        /* Dynamic Watermark Pattern Layer to degrade OCR & automatic captures */
         .protection-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -45,7 +41,7 @@
         .watermark-text {
             position: absolute;
             font-size: 14px;
-            color: rgba(100, 116, 139, 0.07);
+            color: rgba(100, 116, 139, 0.08);
             transform: rotate(-35deg);
             white-space: nowrap;
             pointer-events: none;
@@ -54,39 +50,37 @@
             user-select: none;
         }
 
-        /* Video / Screen Recording Protection Filter Layer */
-        .screen-capture-protected {
-            transition: filter 0.2s ease;
-        }
-        
+        /* Video and Snipping Recording Masking Filter */
         .snipping-detected {
             filter: blur(80px) brightness(0) !important;
             background: #0f172a !important;
         }
 
-        /* Mobile Screenshot Interception Overlay (Triggers on blur/visibility events during short cuts) */
-        .mobile-capture-shield {
-            background: #0b0f19 !important;
-            filter: blur(100px) invert(1) contrast(200%) !important;
-        }
-
-        /* Zoom and Scroll Handling Support Classes */
+        /* Scroll + Zoom Online Viewer Container Design */
         .zoom-scroll-viewport {
             overflow: auto !important;
             display: flex;
             align-items: flex-start;
             justify-content: center;
             width: 100%;
-            height: 100%;
+            height: calc(100vh - 70px);
             padding: 20px;
+            background-color: #1e293b;
         }
 
         .secure-frame-wrapper {
             transform-origin: top center;
-            transition: transform 0.1s ease;
+            transition: transform 0.2s ease;
             width: 100%;
             height: 100%;
             min-width: 640px;
+        }
+        
+        #secureViewerFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #ffffff;
         }
     </style>
 </head>
@@ -103,15 +97,16 @@
     </div>
 
     <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center flex-wrap gap-4">
             <div class="flex items-center gap-3">
-                <img src="profile.png" alt="Basanta Acharya" class="w-12 h-12 rounded-2xl object-cover profile-img">
+                <img src="profile.png" alt="Basanta Acharya" onerror="this.src='https://placehold.co/150/e2e8f0/475569?text=BA+Sir'" class="w-12 h-12 rounded-2xl object-cover profile-img">
                 <div>
                     <span class="font-bold text-2xl tracking-tight">BA Sir</span>
                     <p class="text-xs text-slate-500 -mt-1">Basanta Acharya</p>
                 </div>
             </div>
-            <div class="flex items-center gap-6 text-sm font-medium">
+            
+            <div class="flex items-center gap-6 text-sm font-medium flex-wrap">
                 <a href="#home" class="hover:text-blue-600 block-nav-link">Home</a>
                 <a href="#grade11" class="hover:text-blue-600 block-nav-link">Grade 11</a>
                 <a href="#grade12" class="hover:text-blue-600 block-nav-link">Grade 12</a>
@@ -121,19 +116,20 @@
                 <a href="#charts" class="hover:text-blue-600 block-nav-link">Specification Chart</a>
                 <a href="#about" class="hover:text-blue-600 block-nav-link">About</a>
                 
-                <div id="authStatusBlock" class="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-2xl border">
-                    <span id="userGreeting" class="text-xs text-slate-600 max-w-[100px] truncate">Guest Mode</span>
-                    <button id="authTriggerBtn" onclick="toggleAuthPortalModal()" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-xl">Login / Sign Up</button>
+                <div id="authStatusBlock" class="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-2xl border relative">
+                    <span id="onlineDotIndicator" class="hidden w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse" title="Connected and Authenticated Online"></span>
+                    <span id="userGreeting" class="text-xs text-slate-600 max-w-[120px] truncate">Guest Mode</span>
+                    <button id="authTriggerBtn" onclick="toggleAuthPortalModal()" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-xl transition-all">Login / Sign Up</button>
                 </div>
 
-                <button onclick="showAdminPasswordModal()" class="bg-amber-600 hover:bg-amber-700 text-white px-5 py-2 rounded-2xl text-sm font-medium">Admin Panel</button>
+                <button onclick="showAdminPasswordModal()" class="bg-amber-600 hover:bg-amber-700 text-white px-5 py-2 rounded-2xl text-sm font-medium transition-colors">Admin Panel</button>
             </div>
         </div>
     </nav>
 
     <section id="home" class="hero-bg text-white py-20">
         <div class="max-w-5xl mx-auto px-6 text-center">
-            <img src="profile.png" alt="Basanta Acharya" class="w-44 h-44 mx-auto rounded-3xl object-cover profile-img mb-6">
+            <img src="profile.png" alt="Basanta Acharya" onerror="this.src='https://placehold.co/150/e2e8f0/475569?text=BA+Sir'" class="w-44 h-44 mx-auto rounded-3xl object-cover profile-img mb-6">
             <h1 class="text-5xl md:text-6xl font-bold tracking-tighter">Basanta Acharya</h1>
             <p class="text-2xl text-blue-300 mt-2">BA Sir</p>
             <div class="mt-6 space-y-2">
@@ -171,18 +167,10 @@
             </div>
             
             <div class="max-w-4xl mx-auto text-center space-y-4">
-                <p class="font-bold text-xl tracking-tight text-slate-700">
-                    M.Sc. Physics from Central Department of Physics, Tribhuvan University (4 GPA in 4th Semester).
-                </p>
-                <p class="font-bold text-xl tracking-tight text-slate-700">
-                    Awarded with UGC Research Grant Support-2019.
-                </p>
-                <p class="font-bold text-xl tracking-tight text-slate-700">
-                    10+ Years of Teaching Experience.
-                </p>
-                <p class="font-bold text-xl tracking-tight text-slate-700">
-                    Faculty Member at Shaheed Smriti Multiple Campus and Daisy/Sungava College.
-                </p>
+                <p class="font-bold text-xl tracking-tight text-slate-700">M.Sc. Physics from Central Department of Physics, Tribhuvan University (4 GPA in 4th Semester).</p>
+                <p class="font-bold text-xl tracking-tight text-slate-700">Awarded with UGC Research Grant Support-2019.</p>
+                <p class="font-bold text-xl tracking-tight text-slate-700">10+ Years of Teaching Experience.</p>
+                <p class="font-bold text-xl tracking-tight text-slate-700">Faculty Member at Shaheed Smriti Multiple Campus and Daisy/Sungava College.</p>
             </div>
 
             <div class="mt-12 max-w-4xl mx-auto grid md:grid-cols-2 gap-4">
@@ -203,29 +191,21 @@
             </div>
 
             <div class="mt-12 max-w-4xl mx-auto">
-                <div class="bg-slate-100 border border-dashed border-slate-300 rounded-2xl overflow-hidden shadow-sm hover:border-blue-400 transition-colors">
+                <div class="bg-slate-100 border border-dashed border-slate-300 rounded-2xl overflow-hidden shadow-sm">
                     <span class="block bg-slate-200 text-[10px] uppercase font-bold tracking-wider text-slate-500 px-3 py-1 border-b border-dashed border-slate-300">Sponsored Advertisement</span>
-                    <a href="#" target="_blank" class="block">
-                        <img src="ads/about_ad.png" alt="Advertisement" onerror="this.src='https://placehold.co/800x120/e2e8f0/475569?text=Upload+Organization+Advertisement+Image'" class="w-full h-auto object-cover aspect-[5/1] sm:aspect-[7/1]">
-                    </a>
+                    <div class="w-full h-auto bg-slate-200 py-6 text-center text-xs text-slate-500 font-mono">
+                        [Ad Placement Area - 800x120 Image Banner Blueprint Track]
+                    </div>
                 </div>
             </div>
 
             <div class="mt-16 flex flex-col items-center justify-center gap-6">
                 <h3 class="text-2xl font-bold text-slate-800 tracking-tight">Social Media Links:</h3>
                 <div class="flex gap-8 text-4xl">
-                    <a href="https://www.facebook.com/basanta.acharya.10" target="_blank" class="text-blue-600 hover:scale-110 transition-transform">
-                        <i class="fab fa-facebook"></i>
-                    </a>
-                    <a href="https://www.youtube.com/@basantaacharya-c4v" target="_blank" class="text-red-600 hover:scale-110 transition-transform">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                    <a href="https://www.indigo.com/ach_basanta" target="_blank" class="text-pink-600 hover:scale-110 transition-transform">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="https://wa.me/9779844208507" target="_blank" class="text-green-600 hover:scale-110 transition-transform">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
+                    <a href="https://www.facebook.com/basanta.acharya.10" target="_blank" class="text-blue-600 hover:scale-110 transition-transform"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.youtube.com/@basantaacharya-c4v" target="_blank" class="text-red-600 hover:scale-110 transition-transform"><i class="fab fa-youtube"></i></a>
+                    <a href="#" target="_blank" class="text-pink-600 hover:scale-110 transition-transform"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/9779844208507" target="_blank" class="text-green-600 hover:scale-110 transition-transform"><i class="fab fa-whatsapp"></i></a>
                 </div>
                 <p class="font-bold text-lg text-slate-700 mt-2 tracking-tight text-center">
                     Please, Send Payment Slip @ Whatsapp 9844208507 for Payment Verification.
@@ -233,12 +213,6 @@
             </div>
         </div>
     </section>
-
-    <div class="bg-slate-800 text-amber-400 py-3 overflow-hidden border-b border-slate-700">
-        <marquee behavior="scroll" direction="left" class="text-lg font-bold tracking-wide">
-            ✨ Empowering minds, Shaping Futures &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; 🚀 Learn Today, Lead Tomorrow &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; 📚 Your 24 / 7 Study Partner ✨
-        </marquee>
-    </div>
 
     <section id="grade11" class="py-20 bg-slate-50 border-b-4 border-slate-200">
         <div class="max-w-7xl mx-auto px-6">
@@ -248,7 +222,7 @@
                 </h2>
             </div>
 
-            <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white p-6 rounded-2xl mb-12 flex flex-col md:flex-row items-center justify-between gap-4 shadow-md border-b-4 border-indigo-500">
+            <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white p-6 rounded-2xl mb-12 flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
                 <div class="flex items-center gap-4">
                     <div class="text-3xl text-amber-400 bg-white/10 p-3 rounded-xl"><i class="fas fa-circle-play"></i></div>
                     <div>
@@ -256,16 +230,7 @@
                         <p class="text-sm text-slate-300">Stuck on derivations? Get full premium animated recorded conceptual packages.</p>
                     </div>
                 </div>
-                <a href="https://wa.me/9779844208507" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-slate-900 px-5 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap tracking-tight transition-colors">Book Video Pack</a>
-            </div>
-
-            <div class="max-w-7xl mx-auto mb-12">
-                <div class="bg-slate-100 border border-dashed border-slate-300 rounded-2xl overflow-hidden shadow-sm hover:border-blue-400 transition-colors">
-                    <span class="block bg-slate-200 text-[10px] uppercase font-bold tracking-wider text-slate-500 px-3 py-1 border-b border-dashed border-slate-300">Partner Promotion</span>
-                    <a href="#" target="_blank" class="block">
-                        <img src="ads/grade11_ad.png" alt="Advertisement" onerror="this.src='https://placehold.co/1000x100/e2e8f0/475569?text=Upload+External+Organization+Banner+Image'" class="w-full h-auto object-cover aspect-[5/1] sm:aspect-[8/1]">
-                    </a>
-                </div>
+                <a href="https://wa.me/9779844208507" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-slate-900 px-5 py-2.5 rounded-xl font-bold text-sm tracking-tight transition-colors">Book Video Pack</a>
             </div>
 
             <div class="mb-20">
@@ -291,16 +256,6 @@
         </div>
     </section>
 
-    <div class="max-w-7xl mx-auto my-6 px-6">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-YOUR_ADSENSE_PUBLISHER_ID_HERE"
-             data-ad-slot="YOUR_ADSENSE_SLOT_ID_HERE"
-             data-ad-format="auto"
-             full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-
     <section id="grade12" class="py-20 bg-white border-b-4 border-slate-200">
         <div class="max-w-7xl mx-auto px-6">
             <div class="bg-gradient-to-r from-indigo-600 to-blue-700 text-white rounded-3xl p-8 mb-16 border-b-8 border-b-indigo-900 shadow-md">
@@ -309,46 +264,22 @@
                 </h2>
             </div>
 
-            <div class="bg-gradient-to-r from-blue-900 to-slate-900 text-white p-6 rounded-2xl mb-12 flex flex-col md:flex-row items-center justify-between gap-4 shadow-md border-b-4 border-blue-500">
-                <div class="flex items-center gap-4">
-                    <div class="text-3xl text-emerald-400 bg-white/10 p-3 rounded-xl"><i class="fas fa-star"></i></div>
-                    <div>
-                        <h4 class="font-bold text-lg tracking-tight">Grade 12 Live Online Interactive Batches</h4>
-                        <p class="text-sm text-slate-300">Daily live virtual groups targeting complex Modern Physics numerical patterns.</p>
-                    </div>
-                </div>
-                <a href="https://wa.me/9779844208507" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap tracking-tight transition-colors">Register Seat Now</a>
-            </div>
-
-            <div class="max-w-7xl mx-auto mb-12">
-                <div class="bg-slate-100 border border-dashed border-slate-300 rounded-2xl overflow-hidden shadow-sm hover:border-blue-400 transition-colors">
-                    <span class="block bg-slate-200 text-[10px] uppercase font-bold tracking-wider text-slate-500 px-3 py-1 border-b border-dashed border-slate-300">Featured Placement</span>
-                    <a href="#" target="_blank" class="block">
-                        <img src="ads/grade12_ad.png" alt="Advertisement" onerror="this.src='https://placehold.co/1000x100/e2e8f0/475569?text=Upload+External+Organization+Banner+Image'" class="w-full h-auto object-cover aspect-[5/1] sm:aspect-[8/1]">
-                    </a>
-                </div>
-            </div>
-
             <div class="mb-16">
                 <h3 class="section-header text-white px-6 py-3 rounded-2xl inline-block font-semibold mb-6">Mechanics</h3>
                 <div id="g12-mechanics" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
-
             <div class="mb-16">
                 <h3 class="section-header text-white px-6 py-3 rounded-2xl inline-block font-semibold mb-6">Heat and Thermodynamics</h3>
                 <div id="g12-heat" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
-
             <div class="mb-16">
                 <h3 class="section-header text-white px-6 py-3 rounded-2xl inline-block font-semibold mb-6">Wave and Optics</h3>
                 <div id="g12-wave" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
-
             <div class="mb-16">
                 <h3 class="section-header text-white px-6 py-3 rounded-2xl inline-block font-semibold mb-6">Electricity and Magnetism</h3>
                 <div id="g12-electricity" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
-
             <div>
                 <h3 class="section-header text-white px-6 py-3 rounded-2xl inline-block font-semibold mb-6">Modern Physics</h3>
                 <div id="g12-modern" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
@@ -359,128 +290,91 @@
     <section id="questions" class="py-20 bg-slate-50 border-b-4 border-slate-200">
         <div class="max-w-7xl mx-auto px-6">
             <div class="bg-gradient-to-r from-amber-50 via-orange-50 to-transparent border border-amber-200 rounded-3xl p-8 mb-6 border-b-4 border-b-amber-600 shadow-sm">
-                <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-                    <i class="fas fa-question-circle text-amber-600"></i> Question Collections
-                </h2>
+                <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3"><i class="fas fa-question-circle text-amber-600"></i> Question Collections</h2>
             </div>
-            <p class="text-slate-600 mb-16 max-w-2xl px-2">Access complete sets of exam guidelines and practice questions designed to help you prepare effectively for your exams.</p>
-            
             <div id="question-collections-container" class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"></div>
-
-            <div class="mt-12 max-w-4xl mx-auto">
-                <div class="bg-slate-100 border border-dashed border-slate-300 rounded-2xl overflow-hidden shadow-sm hover:border-amber-400 transition-colors">
-                    <span class="block bg-slate-200 text-[10px] uppercase font-bold tracking-wider text-slate-500 px-3 py-1 border-b border-dashed border-slate-300">Sponsor Block</span>
-                    <a href="#" target="_blank" class="block">
-                        <img src="ads/questions_ad.png" alt="Advertisement" onerror="this.src='https://placehold.co/800x120/e2e8f0/475569?text=Upload+Organization+Advertisement+Image'" class="w-full h-auto object-cover aspect-[5/1] sm:aspect-[7/1]">
-                    </a>
-                </div>
-            </div>
-
-            <div class="mt-16 max-w-4xl mx-auto bg-gradient-to-br from-amber-500 to-orange-600 text-white p-6 rounded-3xl flex flex-col sm:flex-row justify-between items-center gap-4 shadow-lg">
-                <div>
-                    <h4 class="font-bold text-xl tracking-tight">Want 1-on-1 Numerical Doubt Assistance?</h4>
-                    <p class="text-xs text-amber-100 mt-1">Get customized video solution links straight from BA Sir for difficult past sets.</p>
-                </div>
-                <a href="https://wa.me/9779844208507" target="_blank" class="bg-white text-orange-600 px-6 py-3 rounded-2xl font-bold text-sm tracking-tight shadow-md hover:bg-slate-50 transition-colors">Inquire Pricing</a>
-            </div>
         </div>
     </section>
 
     <section id="books" class="py-20 bg-white border-b-4 border-slate-200">
         <div class="max-w-7xl mx-auto px-6">
             <div class="bg-gradient-to-r from-blue-50 via-cyan-50 to-transparent border border-blue-200 rounded-3xl p-8 mb-6 border-b-4 border-b-blue-600 shadow-sm">
-                <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-                    <i class="fas fa-book-open text-blue-600"></i> NEB Books - Physics
-                </h2>
+                <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3"><i class="fas fa-book-open text-blue-600"></i> NEB Books - Physics</h2>
             </div>
-            <p class="text-slate-600 mb-16 max-w-2xl px-2">Download reference textbooks and official curriculum books for your preparation completely free of charge.</p>
-            
             <div id="neb-books-container" class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"></div>
-
-            <div class="mt-12 max-w-4xl mx-auto">
-                <div class="bg-slate-100 border border-dashed border-slate-300 rounded-2xl overflow-hidden shadow-sm hover:border-blue-400 transition-colors">
-                    <span class="block bg-slate-200 text-[10px] uppercase font-bold tracking-wider text-slate-500 px-3 py-1 border-b border-dashed border-slate-300">Sponsor Block</span>
-                    <a href="#" target="_blank" class="block">
-                        <img src="ads/books_ad.png" alt="Advertisement" onerror="this.src='https://placehold.co/800x120/e2e8f0/475569?text=Upload+Organization+Advertisement+Image'" class="w-full h-auto object-cover aspect-[5/1] sm:aspect-[7/1]">
-                    </a>
-                </div>
-            </div>
         </div>
     </section>
 
     <section id="syllabus" class="py-20 bg-slate-50 border-b-4 border-slate-200">
         <div class="max-w-7xl mx-auto px-6">
             <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-transparent border border-emerald-200 rounded-3xl p-8 mb-6 border-b-4 border-b-emerald-600 shadow-sm">
-                <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-                    <i class="fas fa-scroll text-emerald-600"></i> NEB Syllabus - Physics
-                </h2>
+                <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3"><i class="fas fa-scroll text-emerald-600"></i> NEB Syllabus - Physics</h2>
             </div>
-            <p class="text-slate-600 mb-16 max-w-2xl px-2">Download the official curriculum requirements structure and marking scheme updates directly for free.</p>
-            
             <div id="neb-syllabus-container" class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"></div>
-
-            <div class="mt-12 max-w-4xl mx-auto">
-                <div class="bg-slate-100 border border-dashed border-slate-300 rounded-2xl overflow-hidden shadow-sm hover:border-emerald-400 transition-colors">
-                    <span class="block bg-slate-200 text-[10px] uppercase font-bold tracking-wider text-slate-500 px-3 py-1 border-b border-dashed border-slate-300">Educational Partner Placement</span>
-                    <a href="#" target="_blank" class="block">
-                        <img src="ads/syllabus_ad.png" alt="Advertisement" onerror="this.src='https://placehold.co/800x120/e2e8f0/475569?text=Upload+Organization+Advertisement+Image'" class="w-full h-auto object-cover aspect-[5/1] sm:aspect-[7/1]">
-                    </a>
-                </div>
-            </div>
-
-            <div class="mt-16 max-w-4xl mx-auto bg-slate-900 text-slate-300 p-6 rounded-3xl text-center border border-slate-800 shadow-md">
-                <p class="text-sm font-medium">🎯 Syllabus content is updated regularly matching the latest National Examination Board guidelines.</p>
-                <p class="text-xs text-slate-500 mt-1">For customized marking evaluation schemes blueprints, join premium membership blocks.</p>
-            </div>
         </div>
     </section>
 
     <section id="charts" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-6">
             <div class="bg-gradient-to-r from-purple-50 via-fuchsia-50 to-transparent border border-purple-200 rounded-3xl p-8 mb-6 border-b-4 border-b-purple-600 shadow-sm">
-                <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-                    <i class="fas fa-chart-bar text-purple-600"></i> Model Questions & Specification Chart-Physics
-                </h2>
+                <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3"><i class="fas fa-chart-bar text-purple-600"></i> Model Questions & Specification Chart-Physics</h2>
             </div>
-            <p class="text-slate-600 mb-16 max-w-2xl px-2">Download official physics specification blueprints and model questions framework blocks completely for free.</p>
-            
             <div id="neb-charts-container" class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"></div>
-
-            <div class="mt-12 max-w-4xl mx-auto">
-                <div class="bg-slate-100 border border-dashed border-slate-300 rounded-2xl overflow-hidden shadow-sm hover:border-purple-400 transition-colors">
-                    <span class="block bg-slate-200 text-[10px] uppercase font-bold tracking-wider text-slate-500 px-3 py-1 border-b border-dashed border-slate-300">Academic Evaluation Placement</span>
-                    <a href="#" target="_blank" class="block">
-                        <img src="ads/charts_ad.png" alt="Advertisement" onerror="this.src='https://placehold.co/800x120/e2e8f0/475569?text=Upload+Organization+Advertisement+Image'" class="w-full h-auto object-cover aspect-[5/1] sm:aspect-[7/1]">
-                    </a>
-                </div>
-            </div>
         </div>
     </section>
 
-    <div id="paymentModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100]">
-        <div class="bg-white rounded-3xl max-w-md w-full mx-4 p-8 text-center">
-            <h3 class="font-bold text-2xl mb-4">Pay NPR 50</h3>
-            <p class="text-slate-600 mb-4">Scan QR Code with eSewa</p>
-            <img id="qrImage" src="esewaqr.png" class="mx-auto rounded-2xl border-4 border-slate-200 mb-4" alt="Payment QR">
+    <div id="paymentModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[100] p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 text-center shadow-2xl">
+            <h3 class="font-bold text-2xl mb-2">Pay NPR 50 to Unlock</h3>
+            <p id="targetChapterTitle" class="text-sm text-blue-600 font-semibold mb-4 truncate">Module Access</p>
+            <p class="text-xs text-slate-500 mb-4">Scan QR Code with eSewa / Mobile Banking App</p>
+            
+            <img id="qrImage" src="esewaqr.png" onerror="this.src='https://placehold.co/300x300/e2e8f0/475569?text=eSewa+Payment+QR+9844208507'" class="mx-auto rounded-2xl border-4 border-slate-100 mb-4 max-w-[220px]" alt="Payment QR Profile">
             
             <div class="mb-4 text-left">
-                <label class="block text-xs font-bold text-slate-500 uppercase mb-1 tracking-wider">Your Full Name / ID:</label>
-                <input type="text" id="clientNameInput" placeholder="Enter your full name" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-1 tracking-wider">Your Authenticated Login ID / Name:</label>
+                <input type="text" id="clientNameInput" readonly class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 text-sm font-mono outline-none">
             </div>
 
-            <div class="bg-amber-50 p-5 rounded-2xl text-left mb-6">
-                <p class="font-medium">eSewa ID: <span class="font-mono">9844208507</span></p>
-                <p class="text-sm text-slate-600 mt-1">After payment, send Transaction ID to BA Sir</p>
+            <div class="bg-blue-50 p-4 rounded-2xl text-left mb-6 text-xs text-blue-900 space-y-1">
+                <p class="font-bold">Merchant: Basanta Acharya</p>
+                <p>eSewa ID Number: <span class="font-mono font-bold">9844208507</span></p>
+                <p class="text-slate-500 mt-1">Submitting a request logs a record into the verification queue.</p>
             </div>
-            <button onclick="paymentCompleted()" class="w-full py-4 bg-emerald-600 text-white font-semibold rounded-2xl">
-                I Have Paid - Request Unlock
+            
+            <button onclick="submitPaymentVerificationRequest()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl transition-all shadow-md">
+                I Have Paid - Submit Request
             </button>
-            <button onclick="hidePaymentModal()" class="mt-4 text-slate-500">Close</button>
+            <button onclick="hidePaymentModal()" class="mt-3 text-sm text-slate-400 hover:text-slate-600 font-medium">Cancel and Back</button>
         </div>
     </div>
 
-    <div id="adminAuthModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[115]">
-        <div class="bg-white rounded-3xl max-w-md w-full mx-4 p-6 shadow-2xl border">
+    <div id="authPortalModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[105] p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border">
+            <div class="flex border-b mb-4 text-sm font-semibold select-none">
+                <button id="tabLoginHead" onclick="toggleAuthTab('LOGIN')" class="flex-1 pb-3 text-center border-b-2 border-blue-600 text-blue-600">Sign In</button>
+                <button id="tabRegisterHead" onclick="toggleAuthTab('REGISTER')" class="flex-1 pb-3 text-center text-slate-400 border-b-2 border-transparent">Create Account</button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1 tracking-wider">Access Identity / Login ID:</label>
+                    <input type="text" id="authEmailField" placeholder="Enter student ID or email" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1 tracking-wider">Security Access Password:</label>
+                    <input type="password" id="authPasswordField" placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                </div>
+                <button id="authPrimaryActionButton" onclick="executeAuthenticationPipeline()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-sm">
+                    Sign In to Profile
+                </button>
+                <button onclick="toggleAuthPortalModal()" class="w-full text-center text-xs text-slate-400 hover:text-slate-600 mt-2">Dismiss and Browse</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminAuthModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[115] p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="font-bold text-xl text-slate-900"><i class="fas fa-shield-halved text-amber-600 mr-2"></i>Admin Gatekeeper</h3>
                 <button onclick="hideAdminPasswordModal()" class="text-2xl font-bold text-slate-400 hover:text-slate-600">&times;</button>
@@ -490,354 +384,140 @@
                     <label class="block text-xs font-bold text-slate-500 uppercase mb-1 tracking-wider">System Secret Key Phrase:</label>
                     <input type="password" id="adminSecretKeyInput" placeholder="••••••••••••" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm">
                 </div>
-                <button onclick="validateAdminAccessGate()" class="w-full py-3 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition-colors">
+                <button onclick="validateAdminAccessGate()" class="w-full py-3 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition-colors shadow">
                     Unlock Controls Dashboard
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="adminPanel" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[110]">
-        <div class="bg-white rounded-3xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden flex flex-col">
-            <div class="p-6 border-b flex justify-between items-center bg-slate-50">
+    <div id="adminPanel" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[110] p-4">
+        <div class="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+            <div class="p-6 border-b flex justify-between items-center bg-slate-50 flex-wrap gap-2">
                 <div>
                     <h3 class="font-bold text-2xl">Administrative Dashboard</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Control pipeline monitoring & analytics parameters</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Control payment pipeline approvals, login records, and website telemetry analytics</p>
                 </div>
-                <button onclick="hideAdminPanel()" class="text-3xl font-light hover:text-slate-600">×</button>
+                <button onclick="hideAdminPanel()" class="text-3xl font-light hover:text-slate-600">&times;</button>
             </div>
             
             <div class="flex bg-slate-100 border-b text-sm font-semibold select-none">
-                <button id="adminPaymentsTabHead" onclick="switchAdminSubPanel('PAYMENTS')" class="px-6 py-3 border-b-2 border-blue-600 text-blue-600">Pending Payments</button>
-                <button id="adminAnalyticsTabHead" onclick="switchAdminSubPanel('ANALYTICS')" class="px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800">Visitor Tracking & Analytics</button>
-            </div>
-
-            <div class="flex-1 overflow-auto p-6">
-                <div id="adminPaymentsPanelBlock" class="space-y-4">
-                    <div id="pendingList" class="space-y-4"></div>
-                </div>
-
-                <div id="adminAnalyticsPanelBlock" class="hidden space-y-6">
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 text-center">
-                            <span class="block text-xs font-bold text-blue-600 uppercase tracking-wider">Total Page Views</span>
-                            <span id="metricPageViewsVal" class="block text-3xl font-black text-blue-900 mt-1">1</span>
-                        </div>
-                        <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
-                            <span class="block text-xs font-bold text-emerald-600 uppercase tracking-wider">Unique Sessions</span>
-                            <span id="metricSessionsVal" class="block text-3xl font-black text-emerald-900 mt-1">1</span>
-                        </div>
-                        <div class="bg-purple-50 border border-purple-200 rounded-2xl p-4 text-center">
-                            <span class="block text-xs font-bold text-purple-600 uppercase tracking-wider">Module Clicks</span>
-                            <span id="metricClicksVal" class="block text-3xl font-black text-purple-900 mt-1">0</span>
-                        </div>
-                        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-center">
-                            <span class="block text-xs font-bold text-amber-600 uppercase tracking-wider">Registered Users</span>
-                            <span id="metricRegUsersVal" class="block text-3xl font-black text-amber-900 mt-1">0</span>
-                        </div>
-                    </div>
-
-                    <div class="border rounded-2xl p-5 bg-slate-50">
-                        <h4 class="font-bold text-sm text-slate-800 mb-3 uppercase tracking-wide flex items-center gap-2">
-                            <i class="fas fa-chart-line text-blue-600"></i> Chapter Interaction Heat Log Map
-                        </h4>
-                        <div id="analyticsChapterInteractionModeLogs" class="space-y-2 max-h-[160px] overflow-auto text-xs font-medium">
-                            <p class="text-slate-500 text-center py-4">No specific tracking interactions intercepted yet.</p>
-                        </div>
-                    </div>
-
-                    <div class="border rounded-2xl p-5 bg-slate-50">
-                        <h4 class="font-bold text-sm text-slate-800 mb-3 uppercase tracking-wide flex items-center gap-2">
-                            <i class="fas fa-laptop-code text-slate-700"></i> Intercepted Environment Footprints
-                        </h4>
-                        <div id="analyticsDeviceLogsContainer" class="space-y-2 max-h-[160px] overflow-auto text-xs font-mono text-slate-600"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="authPortalModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-[105]">
-        <div class="bg-white rounded-3xl max-w-md w-full mx-4 p-6 shadow-2xl border">
-            <div class="flex border-b mb-4 text-sm font-semibold">
-                <button id="tabLoginHead" onclick="toggleAuthTab('LOGIN')" class="flex-1 pb-3 text-center border-b-2 border-blue-600 text-blue-600">Sign In</button>
-                <button id="tabRegisterHead" onclick="toggleAuthTab('REGISTER')" class="flex-1 pb-3 text-center text-slate-400 border-b-2 border-transparent">Create Account</button>
+                <button id="adminPaymentsTabHead" onclick="switchAdminSubPanel('PAYMENTS')" class="px-6 py-3 border-b-2 border-blue-600 text-blue-600">Pending Payments Queue</button>
+                <button id="adminAnalyticsTabHead" onclick="switchAdminSubPanel('ANALYTICS')" class="px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800">Analytics Telemetry Stats</button>
+                <button id="adminRecordsTabHead" onclick="switchAdminSubPanel('RECORDS')" class="px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800">Downloadable Documents Records</button>
             </div>
             
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1 tracking-wider">Access Email Address / Login ID:</label>
-                    <input type="email" id="authEmailField" placeholder="student@domain.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+            <div class="flex-1 overflow-auto p-6 bg-slate-50">
+                <div id="adminPaymentsSubBlock" class="space-y-4">
+                    <h4 class="font-bold text-slate-800 tracking-tight text-lg mb-2">Awaiting Verification Requests</h4>
+                    <div id="pendingList" class="space-y-3"></div>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1 tracking-wider">Password Token Setup:</label>
-                    <input type="password" id="authPasswordField" placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+
+                <div id="adminAnalyticsSubBlock" class="hidden space-y-6">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-white border p-4 rounded-2xl shadow-sm">
+                            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Total Page Views</span>
+                            <p id="metricPageViewsVal" class="text-3xl font-black text-slate-800 mt-1">0</p>
+                        </div>
+                        <div class="bg-white border p-4 rounded-2xl shadow-sm">
+                            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Unique Active Sessions</span>
+                            <p id="metricSessionsVal" class="text-3xl font-black text-slate-800 mt-1">0</p>
+                        </div>
+                        <div class="bg-white border p-4 rounded-2xl shadow-sm">
+                            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Total Clicks Tracking Hits</span>
+                            <p id="metricClicksVal" class="text-3xl font-black text-slate-800 mt-1">0</p>
+                        </div>
+                        <div class="bg-white border p-4 rounded-2xl shadow-sm">
+                            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Registered Users (Shared Auth)</span>
+                            <p id="metricRegUsersVal" class="text-3xl font-black text-blue-600 mt-1">0</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-white border rounded-2xl p-4 shadow-sm flex flex-col">
+                            <h4 class="font-bold text-sm text-slate-800 border-b pb-2 mb-3"><i class="fas fa-fire text-orange-500 mr-2"></i>Content Interaction Engagement Heatmap Map</h4>
+                            <div id="analyticsChapterInteractionModeLogs" class="space-y-2 flex-1 max-h-[200px] overflow-auto text-xs"></div>
+                        </div>
+                        <div class="bg-white border rounded-2xl p-4 shadow-sm flex flex-col">
+                            <h4 class="font-bold text-sm text-slate-800 border-b pb-2 mb-3"><i class="fas fa-desktop text-indigo-500 mr-2"></i>Intercepted Environment Footprints</h4>
+                            <div id="analyticsDeviceLogsContainer" class="space-y-2 flex-1 max-h-[200px] overflow-auto text-xs font-mono text-slate-600"></div>
+                        </div>
+                    </div>
                 </div>
-                <button id="authPrimaryActionButton" onclick="executeAuthenticationPipeline()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all">
-                    Establish Secure Identity
-                </button>
-                <button onclick="toggleAuthPortalModal()" class="w-full text-center text-xs text-slate-400 hover:text-slate-600 mt-2">Dismiss and Browse</button>
+
+                <div id="adminRecordsSubBlock" class="hidden space-y-6">
+                    <div class="bg-white border rounded-2xl p-6 shadow-sm space-y-4">
+                        <h4 class="font-bold text-slate-800 text-lg">Download System Auditing Sheets</h4>
+                        <p class="text-xs text-slate-500">Download system data states as plain-text system log reports tracking accounting and permission maps.</p>
+                        
+                        <div class="grid sm:grid-cols-2 gap-4 pt-2">
+                            <button onclick="downloadAdminSystemDocument('LOGIN_RECORDS')" class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all">
+                                <i class="fas fa-download"></i> Download Login Records Document (.txt)
+                            </button>
+                            <button onclick="downloadAdminSystemDocument('PAYMENT_RECORDS')" class="bg-emerald-600 hover:bg-emerald-700 text-white py-3 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all">
+                                <i class="fas fa-download"></i> Download Payment Ledger Document (.txt)
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div id="secureViewerPortal" class="hidden fixed inset-0 bg-slate-900/95 flex flex-col z-[200]">
-        <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center border-b border-slate-700 select-none">
+        <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center border-b border-slate-700 select-none flex-wrap gap-4">
             <div class="flex items-center gap-3">
-                <i class="fas fa-lock text-amber-500 text-xl"></i>
-                <h3 id="securePortalTitle" class="font-bold text-lg text-slate-100 tracking-tight">Protected Online Preview Only</h3>
-            </div>
-            <div class="flex items-center gap-6">
-                <div class="flex items-center gap-2 bg-slate-900 border border-slate-700 rounded-xl p-1">
-                    <button onclick="modifyViewerDisplayZoom(-0.1)" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm"><i class="fas fa-search-minus"></i></button>
-                    <span id="zoomPercentageTrackerValue" class="text-xs font-mono font-bold text-slate-400 px-2 select-none">100%</span>
-                    <button onclick="modifyViewerDisplayZoom(0.1)" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm"><i class="fas fa-search-plus"></i></button>
-                    <button onclick="resetViewerDisplayZoom()" class="text-[10px] uppercase font-bold tracking-wider text-slate-500 px-2 hover:text-slate-300">Reset</button>
+                <i class="fas fa-lock text-emerald-400 animate-pulse"></i>
+                <div>
+                    <h3 id="secureViewerTitle" class="font-bold text-sm tracking-tight truncate max-w-[240px]">Secure View Only Mode</h3>
+                    <p class="text-[10px] text-slate-400">Content Stream Protected under Copyright Policy</p>
                 </div>
-                <span class="text-xs bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-600 select-none"><i class="fas fa-eye-slash mr-1"></i> Screenshot Protection Active</span>
-                <button onclick="closeSecurePortal()" class="bg-rose-600 hover:bg-rose-700 text-white text-xs px-4 py-2 rounded-xl font-bold tracking-wider transition-colors">CLOSE SECURE VIEW</button>
             </div>
-        </div>
-        <div class="flex-1 w-full bg-slate-950 relative overflow-hidden flex items-center justify-center screen-capture-protected" id="secureViewerSandboxWrapper">
-            <div class="protection-overlay"></div>
-            <div id="watermarkContainer" class="absolute inset-0 overflow-hidden pointer-events-none select-none"></div>
             
-            <div class="zoom-scroll-viewport" id="viewportScrollContainer">
-                <div class="secure-frame-wrapper" id="frameWrapperContainerScaleElement">
-                    <iframe id="secureViewerFrame" class="w-full h-full border-0 select-none bg-slate-900" src="" allow="autoplay" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
-                </div>
+            <div class="flex items-center gap-2 bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-700 text-xs">
+                <button onclick="adjustViewerDisplayZoom(-0.1)" class="w-6 h-6 hover:bg-slate-700 rounded font-bold text-center">-</button>
+                <span id="zoomPercentageIndicator" class="font-mono min-w-[40px] text-center font-bold text-blue-400">100%</span>
+                <button onclick="adjustViewerDisplayZoom(0.1)" class="w-6 h-6 hover:bg-slate-700 rounded font-bold text-center">+</button>
+                <div class="w-[1px] h-4 bg-slate-700 mx-1"></div>
+                <button onclick="resetViewerDisplayZoom()" class="px-2 py-0.5 hover:bg-slate-700 text-slate-300 rounded">Reset</button>
+            </div>
+            
+            <button onclick="closeSecurePortal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1">
+                <i class="fas fa-times-circle"></i> Exit Vault Document
+            </button>
+        </div>
+        
+        <div class="zoom-scroll-viewport relative" id="viewerContainerScroller">
+            <div id="watermarkContainer" class="absolute inset-0 pointer-events-none overflow-hidden z-40"></div>
+            <div class="protection-overlay"></div>
+            <div id="secureFrameWrapper" class="secure-frame-wrapper">
+                <iframe id="secureViewerFrame" src="" allow="autoplay"></iframe>
             </div>
         </div>
     </div>
 
+
     <script>
-        const getBasePath = () => {
-            const loc = window.location;
-            if (loc.hostname.includes("github.io")) {
-                const repoName = loc.pathname.split("/")[1];
-                return `${loc.origin}/${repoName}/`;
-            }
-            return "./";
-        };
-        const BASE_URL = getBasePath();
-
-        // Workspace Scaling Configuration Metrics Trackers
-        let globalViewerDisplayScale = 1.0;
-
-        // Identity Framework Profile Trackers State
-        let profileEcosystemState = {
-            currentSessionAccountID: null,
-            activeAuthenticationTab: 'LOGIN'
-        };
-
-        // ================== STEP HISTORY NAVIGATION ENGINE DATA METRICS ==================
-        let structuralNavigationHistoryStack = [];
-        let structuralNavigationForwardHistoryStack = [];
-        let executionBlockSystemInternalTrackingFlag = false;
-
-        // Injects context trackers securely into execution flows
-        function logInteractionStep(type, targetIdentifier, humanLabel = '') {
-            if (executionBlockSystemInternalTrackingFlag) return;
-            
-            const actionNode = { type, target: targetIdentifier, label: humanLabel, timestamp: Date.now() };
-            structuralNavigationHistoryStack.push(actionNode);
-            structuralNavigationForwardHistoryStack = []; // Reset standard forward tree lookups on explicit new interactions
-            synchronizeNavigationDockControllers();
-
-            // Fire Analytical Interceptors concurrently
-            registerInternalAnalyticsMetricClick(targetIdentifier, humanLabel);
-        }
-
-        function synchronizeNavigationDockControllers() {
-            const backBtn = document.getElementById('stepBackNavBtn');
-            const forwardBtn = document.getElementById('stepForwardNavBtn');
-            
-            if (structuralNavigationHistoryStack.length > 1) {
-                backBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            } else {
-                backBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            }
-
-            if (structuralNavigationForwardHistoryStack.length > 0) {
-                forwardBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            } else {
-                forwardBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            }
-        }
-
-        function executeStepBackwards() {
-            if (structuralNavigationHistoryStack.length <= 1) return;
-            
-            executionBlockSystemInternalTrackingFlag = true;
-            const currentStep = structuralNavigationHistoryStack.pop();
-            structuralNavigationForwardHistoryStack.push(currentStep);
-            
-            const targetStep = structuralNavigationHistoryStack[structuralNavigationHistoryStack.length - 1];
-            executeStructuralStepTransition(targetStep);
-            
-            executionBlockSystemInternalTrackingFlag = false;
-            synchronizeNavigationDockControllers();
-        }
-
-        function executeStepForwards() {
-            if (structuralNavigationForwardHistoryStack.length === 0) return;
-            
-            executionBlockSystemInternalTrackingFlag = true;
-            const nextStep = structuralNavigationForwardHistoryStack.pop();
-            structuralNavigationHistoryStack.push(nextStep);
-            
-            executeStructuralStepTransition(nextStep);
-            
-            executionBlockSystemInternalTrackingFlag = false;
-            synchronizeNavigationDockControllers();
-        }
-
-        function executeStructuralStepTransition(stepNode) {
-            if (stepNode.type === 'SECTION') {
-                if (!document.getElementById('secureViewerPortal').classList.contains('hidden')) {
-                    closeSecurePortalInternal();
-                }
-                const targetEl = document.getElementById(stepNode.target);
-                if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
-            } else if (stepNode.type === 'PDF') {
-                openSecurePortalInternal(stepNode.label, stepNode.target);
-            }
-        }
-
-        // ================== ANALYTICS ENGINE TRACKING FRAMEWORK LOCAL STORAGE ==================
-        function initializeAnalyticsFrameworkEngineMetrics() {
-            let stats = localStorage.getItem('baSir_EcosystemSystemAnalyticsStats');
-            if (!stats) {
-                stats = {
-                    totalPageViews: 1,
-                    uniqueSessions: 1,
-                    moduleInteractionsMap: {},
-                    capturedDeviceLogFootprints: []
-                };
-                localStorage.setItem('baSir_EcosystemSystemAnalyticsStats', JSON.stringify(stats));
-            } else {
-                let parsed = JSON.parse(stats);
-                parsed.totalPageViews += 1;
-                localStorage.setItem('baSir_EcosystemSystemAnalyticsStats', JSON.stringify(parsed));
-            }
-
-            // Log browser dimensions environmental metadata fingerprint values
-            interceptDeviceTelemetryEnvironmentMetrics();
-        }
-
-        function interceptDeviceTelemetryEnvironmentMetrics() {
-            let stats = JSON.parse(localStorage.getItem('baSir_EcosystemSystemAnalyticsStats'));
-            const recordLogNode = {
-                timestamp: new Date().toLocaleString(),
-                agent: navigator.userAgent,
-                resolution: `${window.screen.width}x${window.screen.height}`,
-                language: navigator.language
-            };
-            stats.capturedDeviceLogFootprints.unshift(recordLogNode);
-            if (stats.capturedDeviceLogFootprints.length > 40) stats.capturedDeviceLogFootprints.pop();
-            localStorage.setItem('baSir_EcosystemSystemAnalyticsStats', JSON.stringify(stats));
-        }
-
-        function registerInternalAnalyticsMetricClick(id, label) {
-            let stats = JSON.parse(localStorage.getItem('baSir_EcosystemSystemAnalyticsStats')) || {};
-            if (!stats.moduleInteractionsMap) stats.moduleInteractionsMap = {};
-            
-            stats.moduleInteractionsMap[id] = (stats.moduleInteractionsMap[id] || 0) + 1;
-            localStorage.setItem('baSir_EcosystemSystemAnalyticsStats', JSON.stringify(stats));
-        }
-
-        function switchAdminSubPanel(targetView) {
-            const paymentsTab = document.getElementById('adminPaymentsTabHead');
-            const analyticsTab = document.getElementById('adminAnalyticsTabHead');
-            const paymentsBlock = document.getElementById('adminPaymentsPanelBlock');
-            const analyticsBlock = document.getElementById('adminAnalyticsPanelBlock');
-
-            if (targetView === 'PAYMENTS') {
-                paymentsTab.className = "px-6 py-3 border-b-2 border-blue-600 text-blue-600";
-                analyticsTab.className = "px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800";
-                paymentsBlock.classList.remove('hidden');
-                analyticsBlock.classList.add('hidden');
-            } else {
-                analyticsTab.className = "px-6 py-3 border-b-2 border-blue-600 text-blue-600";
-                paymentsTab.className = "px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800";
-                analyticsBlock.classList.remove('hidden');
-                paymentsBlock.classList.add('hidden');
-                renderAdminAnalyticsDashboardViewports();
-            }
-        }
-
-        function renderAdminAnalyticsDashboardViewports() {
-            const stats = JSON.parse(localStorage.getItem('baSir_EcosystemSystemAnalyticsStats')) || {};
-            const registry = JSON.parse(localStorage.getItem('baSir_ClientRegistryDatabase')) || {};
-
-            document.getElementById('metricPageViewsVal').innerText = stats.totalPageViews || 1;
-            document.getElementById('metricSessionsVal').innerText = stats.uniqueSessions || 1;
-            
-            let clickAggregate = 0;
-            if (stats.moduleInteractionsMap) {
-                Object.values(stats.moduleInteractionsMap).forEach(v => clickAggregate += v);
-            }
-            document.getElementById('metricClicksVal').innerText = clickAggregate;
-            document.getElementById('metricRegUsersVal').innerText = Object.keys(registry).length || 0;
-
-            // Generate Heatmap Interface Rows
-            const interactionLogContainer = document.getElementById('analyticsChapterInteractionModeLogs');
-            if (stats.moduleInteractionsMap && Object.keys(stats.moduleInteractionsMap).length > 0) {
-                let html = '';
-                Object.entries(stats.moduleInteractionsMap).forEach(([k, v]) => {
-                    html += `
-                        <div class="flex justify-between items-center bg-white p-2 border border-slate-200 rounded-xl">
-                            <span class="font-mono font-bold text-slate-700">${k}</span>
-                            <span class="bg-blue-600 text-white font-extrabold px-2 py-0.5 rounded-lg text-[10px]">${v} Hits</span>
-                        </div>`;
-                });
-                interactionLogContainer.innerHTML = html;
-            } else {
-                interactionLogContainer.innerHTML = `<p class="text-slate-500 text-center py-4">No specific tracking interactions intercepted yet.</p>`;
-            }
-
-            // Generate Environmental Footprints Container Viewport Rows
-            const deviceLogsContainer = document.getElementById('analyticsDeviceLogsContainer');
-            if (stats.capturedDeviceLogFootprints && stats.capturedDeviceLogFootprints.length > 0) {
-                let html = '';
-                stats.capturedDeviceLogFootprints.forEach(log => {
-                    html += `
-                        <div class="bg-white p-2.5 border border-slate-200 rounded-xl space-y-1">
-                            <div class="flex justify-between font-bold text-slate-800 text-[10px]">
-                                <span>${log.timestamp}</span>
-                                <span class="text-indigo-600">${log.resolution}</span>
-                            </div>
-                            <p class="text-[10px] text-slate-400 truncate tracking-tight">${log.agent}</p>
-                        </div>`;
-                });
-                deviceLogsContainer.innerHTML = html;
-            } else {
-                deviceLogsContainer.innerHTML = `<p class="text-slate-500 text-center py-4">No environment logs cached.</p>`;
-            }
-        }
-
-        // Initialize user database structure in local store if empty
-        if (!localStorage.getItem('baSir_ClientRegistryDatabase')) {
-            localStorage.setItem('baSir_ClientRegistryDatabase', JSON.stringify({}));
-        }
-
-        // ================== CHAPTER DATA INTEGRATING GOOGLE DRIVE PROPERTIES ==================
+        // ================== ENVIRONMENT CONSTANTS AND SOURCE MAPPING STRUCTURES ==================
+        const BASE_URL = "https://acharya-physics-neb.github.io/files/";
+        
+        // Exact Preservation of all Chapter Objects data mappings
         const g11Mechanics = [
-            {id: "g11_1", title: "Physical Quantities", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1csZ5vGVlyQjg74R9NWI6DfXp9XRx67vO/view?usp=sharing"},
+            {id: "g11_1", title: "Physical Quantities", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1csZ5vGVlyQjg74R9NWI6DfXp9XRx67vO/view?usp=sharing/preview"},
             {id: "g11_2", title: "Vectors", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_VECTORS/view?usp=sharing"},
             {id: "g11_3", title: "Kinematics", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_KINEMATICS/view?usp=sharing"},
             {id: "g11_4", title: "Dynamics", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_DYNAMICS/view?usp=sharing"},
             {id: "g11_5", title: "Work, Energy and Power", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_WORK_ENERGY/view?usp=sharing"},
             {id: "g11_6", title: "Circular Motion", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_CIRCULAR_MOTION/view?usp=sharing"},
-            {id: "g11_7", title: "Gravitation", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_GRAVITATION/view?usp=sharing"},
+            {id: "g11_7", title: "Gravity and Gravitation", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_GRAVITATION/view?usp=sharing"},
             {id: "g11_8", title: "Elasticity", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_ELASTICITY/view?usp=sharing"}
         ];
 
         const g11Heat = [
             {id: "g11_9", title: "Heat and Temperature", unit: "Heat and Thermodynamics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_HEAT_TEMP/view?usp=sharing"},
             {id: "g11_10", title: "Thermal Expansion", unit: "Heat and Thermodynamics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_THERMAL_EXP/view?usp=sharing"},
-            {id: "g11_11", title: "Quantity of Heat", unit: "Heat and Thermodynamics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_QTY_HEAT/view?usp=sharing"},
-            {id: "g11_12", title: "Rate of Heat Flow", unit: "Heat and Thermodynamics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_HEAT_FLOW/view?usp=sharing"},
+            {id: "g11_11", title: "Quantity of Heat", unit: "Heat and Thermodynamics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_QUANTITY_HEAT/view?usp=sharing"},
+            {id: "g11_12", title: "Rate of Heat Flow", unit: "Heat and Thermodynamics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_CHANGE_PHASE/view?usp=sharing"},
             {id: "g11_13", title: "Ideal Gas", unit: "Heat and Thermodynamics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_IDEAL_GAS/view?usp=sharing"}
         ];
 
@@ -858,9 +538,9 @@
         ];
 
         const g11Modern = [
-            {id: "g11_24", title: "Nuclear Physics", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_NUCLEAR_PHYSICS/view?usp=sharing"},
-            {id: "g11_25", title: "Solids", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_SOLIDS/view?usp=sharing"},
-            {id: "g11_26", title: "Recent Trends in Physics", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_RECENT_TRENDS/view?usp=sharing"}
+            {id: "g11_24", title: "Nuclear Physics", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_NUCLEAR/view?usp=sharing"},
+            {id: "g11_25", title: "Solids", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_SOLID_STATE/view?usp=sharing"},
+            {id: "g11_26", title: "Recent Trends in Physics", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_G11_RECENT_TRENDS/view?usp=sharing"}
         ];
 
         const g12Mechanics = [
@@ -876,89 +556,192 @@
 
         const g12Wave = [
             {id: "g12_6", title: "Wave Motion", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_WAVE_MOTION/view?usp=sharing"},
-            {id: "g12_7", title: "Mechanical Waves", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_MECHANICAL_WAVES/view?usp=sharing"},
-            {id: "g12_8", title: "Waves in Pipes and Strings", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_PIPES_STRINGS/view?usp=sharing"},
-            {id: "g12_9", title: "Acoustic Phenomena", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_ACOUSTIC/view?usp=sharing"},
-            {id: "g12_10", title: "Nature and Propagation of Light", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_PROPAGATION_LIGHT/view?usp=sharing"},
-            {id: "g12_11", title: "Interference", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_INTERFERENCE/view?usp=sharing"},
-            {id: "g12_12", title: "Diffraction", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_DIFFRACTION/view?usp=sharing"},
-            {id: "g12_13", title: "Polarization", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_POLARIZATION/view?usp=sharing"}
+            {id: "g12_7", title: "Mechanical Waves", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_VELOCITY_SOUND/view?usp=sharing"},
+            {id: "g12_8", title: "Waves in Pipes and Strings", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_STATIONARY_WAVES/view?usp=sharing"},
+            {id: "g12_9", title: "Acoustic Phenomena", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_ACOUSTIC_PHENOMENA/view?usp=sharing"},
+            {id: "g12_10", title: "Nature and Propagation of Light", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_INTERFERENCE/view?usp=sharing"},
+            {id: "g12_11", title: "Interference", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_DIFFRACTION/view?usp=sharing"},
+            {id: "g12_12", title: "Diffraction and Polarization", unit: "Wave and Optics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_POLARIZATION/view?usp=sharing"}
         ];
 
         const g12Electricity = [
-            {id: "g12_14", title: "Electrical Circuits", unit: "Electricity and Magnetism", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_ELECTRICAL_CIRCUITS/view?usp=sharing"},
-            {id: "g12_15", title: "Thermoelectric Effects", unit: "Electricity and Magnetism", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_THERMOELECTRIC/view?usp=sharing"},
-            {id: "g12_16", title: "Magnetic Field", unit: "Electricity and Magnetism", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_MAGNETIC_FIELD/view?usp=sharing"},
-            {id: "g12_17", title: "Magnetic Properties of Materials", unit: "Electricity and Magnetism", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_MAGNETIC_PROPERTIES/view?usp=sharing"},
-            {id: "g12_18", title: "Electromagnetic Induction", unit: "Electricity and Magnetism", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_EM_INDUCTION/view?usp=sharing"},
-            {id: "g12_19", title: "Alternating Currents", unit: "Electricity and Magnetism", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_ALTERNATING_CURRENTS/view?usp=sharing"}
+            {id: "g12_13", title: "Electric Circuit", unit: "Electricity and Magnetism", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_ELECTRIC_CURRENTS/view?usp=sharing"},
+            {id: "g12_14", title: "Thermoelectric Effect", unit: "Electricity and Magnetism", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_THERMOELECTRIC/view?usp=sharing"},
+            {id: "g12_15", title: "Magnetic Field", unit: "Electricity and Magnetism", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_MAGNETIC_FIELD/view?usp=sharing"},
+            {id: "g12_16", title: "Magnetic Properties of Materials", unit: "Electricity and Magnetism", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_MAGNETIC_PROPERTIES/view?usp=sharing"},
+            {id: "g12_17", title: "Electromagnetic Induction", unit: "Electricity and Magnetism", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_EM_INDUCTION/view?usp=sharing"},
+            {id: "g12_18", title: "Alternating Current", unit: "Electricity and Magnetism", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_ALTERNATING_CURRENTS/view?usp=sharing"}
         ];
 
         const g12Modern = [
-            {id: "g12_20", title: "Electrons", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_ELECTRONS/view?usp=sharing"},
-            {id: "g12_21", title: "Photons", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_PHOTONS/view?usp=sharing"},
-            {id: "g12_22", title: "Semiconductor Devices", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_SEMICONDUCTORS/view?usp=sharing"},
-            {id: "g12_23", title: "Quantization of Energy", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_QUANTIZATION_ENERGY/view?usp=sharing"},
-            {id: "g12_24", title: "Radioactivity and Nuclear Reaction", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_RADIOACTIVITY/view?usp=sharing"},
-            {id: "g12_25", title: "Recent Trends in Physics", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_G12_RECENT_TRENDS/view?usp=sharing"}
+            {id: "g12_19", title: "Electrons", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_ELECTRONS/view?usp=sharing"},
+            {id: "g12_20", title: "Photons", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_PHOTONS/view?usp=sharing"},
+            {id: "g12_21", title: "Semiconductor Devices", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_SEMICONDUCTORS/view?usp=sharing"},
+            {id: "g12_22", title: "Quantization of Energy", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_QUANTIZATION_ENERGY/view?usp=sharing"},
+            {id: "g12_23", title: "Radioactivity and Nuclear Reaction", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_RADIOACTIVITY/view?usp=sharing"},
+            {id: "g12_24", title: "Recent Trends in Physics", unit: "Modern Physics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_G12_RECENT_TRENDS/view?usp=sharing"}
         ];
 
         const questionCollectionsData = [
-            {id: "q_g11", title: "Grade 11 Question Collection", unit: "Question Collections", path: "questions/grade11.pdf", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_Q_G11/view?usp=sharing"},
-            {id: "q_g12", title: "Grade 12 Question Collection", unit: "Question Collections", path: "questions/grade12.pdf", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_Q_G12/view?usp=sharing"}
+            {id: "qc_1", title: "Grade 11 Physics", unit: "Question Sets", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_QC1/view?usp=sharing"},
+            {id: "qc_2", title: "Grade 12 Physics", unit: "Question Sets", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_QC2/view?usp=sharing"}
         ];
 
         const nebBooksData = [
-            {id: "b_g11", title: "Grade - 11 Physics", unit: "NEB Books", path: "books/grade11b.pdf", driveUrl: "https://drive.google.com/file/d/1esqJ1I22v8mLSSuabBqOsgAbWfPy3syJ/view?usp=sharing"},
-            {id: "b_g12", title: "Grade - 12 Physics", unit: "NEB Books", path: "books/grade12b.pdf", driveUrl: "https://drive.google.com/file/d/174NNNXSebQcqPgfTDIR6-0nre32Z1UO0/view?usp=sharing"}
+            {title: "Grade 11 Physics Text Book", unit: "Free Textbook Reference", driveUrl: "https://drive.google.com/file/d/1esqJ1I22v8mLSSuabBqOsgAbWfPy3syJ/view?usp=sharing/preview"},
+            {title: "Grade 12 Physics Text Book", unit: "Free Textbook Reference", driveUrl: "https://drive.google.com/file/d/174NNNXSebQcqPgfTDIR6-0nre32Z1UO0/view?usp=sharing/preview"}
         ];
 
         const nebSyllabusData = [
-            {id: "s_g11", title: "Grade 11 Physics Syllabus", unit: "NEB Syllabus", path: "syllabus/grade11s.pdf", driveUrl: "https://drive.google.com/file/d/12N8hEZqKaE346UV-ctdZQcXlq3xIGy0s/view?usp=sharing"},
-            {id: "s_g12", title: "Grade 12 Physics Syllabus", unit: "NEB Syllabus", path: "syllabus/grade12s.pdf", driveUrl: "https://drive.google.com/file/d/1OQrdy1OaciyPxXV4A-BxZmuNR73NeY2T/view?usp=sharing"}
+            {title: "Grade 11 Physics Curriculum ", unit: "Official Syllabus", driveUrl: "https://drive.google.com/file/d/12N8hEZqKaE346UV-ctdZQcXlq3xIGy0s/view?usp=sharing/preview"},
+            {title: "Grade 12 Physics Curriculum ", unit: "Official Syllabus", driveUrl: "https://drive.google.com/file/d/1OQrdy1OaciyPxXV4A-BxZmuNR73NeY2T/view?usp=sharing/preview"}
         ];
 
         const nebChartsData = [
-            {id: "c_g11", title: "Grade 11 Specification Chart & Model Questions", unit: "Specification Chart", path: "charts/grade11c.pdf", driveUrl: "https://drive.google.com/file/d/1_atkgYYGx1X2ZmB1KEsWUPa-BpPzfoZb/view?usp=sharing"},
-            {id: "c_g12", title: "Grade 12 Specification Chart & Model Questions", unit: "Specification Chart", path: "charts/grade12c.pdf", driveUrl: "https://drive.google.com/file/d/1_IzUzvv5CALRIVl-bxdO7KhOnUDrwEwf/view?usp=sharing"}
+            {title: "Grade-11 NEB Physics ", unit: "Marking Grid Scheme", driveUrl: "https://drive.google.com/file/d/1_atkgYYGx1X2ZmB1KEsWUPa-BpPzfoZb/view?usp=sharing/preview"},
+            {title: "Grade-12 NEB Physics", unit: "Marking Grid Scheme", driveUrl: "https://drive.google.com/file/d/1_IzUzvv5CALRIVl-bxdO7KhOnUDrwEwf/view?usp=sharing/preview"}
         ];
 
-        // Initialize Shared Global Application Context Arrays
-        let pendingPayments = [];
+        // ================== REACTIVE ENGINE DATA STATE POINT WORKSPACES ==================
+        let profileEcosystemState = { currentSessionAccountID: null, activeAuthenticationTab: 'LOGIN' };
         let currentPayChapter = null;
+        let activeViewerZoomScale = 1.0;
+        
+        // Navigation Backwards/Forwards stack metrics
+        let structuralNavigationHistoryStack = [];
+        let structuralNavigationForwardHistoryStack = [];
+        let executionBlockSystemInternalTrackingFlag = false;
 
-        // Verify chapter access clearance state for currently tracked user instance
-        function checkChapterUnlockedStatus(chapterId) {
-            if (profileEcosystemState.currentSessionAccountID) {
-                const database = JSON.parse(localStorage.getItem('baSir_ClientRegistryDatabase')) || {};
-                const currentProfile = database[profileEcosystemState.currentSessionAccountID];
-                if (currentProfile && currentProfile.purchasedModules && currentProfile.purchasedModules[chapterId] === true) {
-                    return true;
+        // Offline Unified Database Simulators 
+        // Initializing Registry, Permissions maps and System records securely inside localStorage
+        if(!localStorage.getItem('baSir_ClientRegistryDatabase')) {
+            localStorage.setItem('baSir_ClientRegistryDatabase', JSON.stringify({
+                "student1": "pass123", "neb2026": "physics"
+            }));
+        }
+        if(!localStorage.getItem('baSir_PermanentAccessGrantsRegistry')) {
+            localStorage.setItem('baSir_PermanentAccessGrantsRegistry', JSON.stringify({}));
+        }
+        if(!localStorage.getItem('baSir_PendingPaymentSubmissionsQueue')) {
+            localStorage.setItem('baSir_PendingPaymentSubmissionsQueue', JSON.stringify([]));
+        }
+        if(!localStorage.getItem('baSir_InternalAuditLoginLogs')) {
+            localStorage.setItem('baSir_InternalAuditLoginLogs', JSON.stringify([]));
+        }
+        if(!localStorage.getItem('baSir_InternalAuditPaymentLogs')) {
+            localStorage.setItem('baSir_InternalAuditPaymentLogs', JSON.stringify([]));
+        }
+
+        // ================== STEP HISTORY NAVIGATION CONTROLLERS ==================
+        function logInteractionStep(type, targetIdentifier, humanLabel = '') {
+            if (executionBlockSystemInternalTrackingFlag) return;
+            const actionNode = { type, target: targetIdentifier, label: humanLabel, timestamp: Date.now() };
+            structuralNavigationHistoryStack.push(actionNode);
+            structuralNavigationForwardHistoryStack = []; 
+            synchronizeNavigationDockControllers();
+            registerInternalAnalyticsMetricClick(targetIdentifier, humanLabel);
+        }
+
+        function synchronizeNavigationDockControllers() {
+            const backBtn = document.getElementById('stepBackNavBtn');
+            const forwardBtn = document.getElementById('stepForwardNavBtn');
+            backBtn.className = structuralNavigationHistoryStack.length > 1 ? 
+                "bg-slate-800 hover:bg-slate-700 text-white w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all" : 
+                "bg-slate-800 text-white w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold opacity-50 cursor-not-allowed transition-all";
+            forwardBtn.className = structuralNavigationForwardHistoryStack.length > 0 ? 
+                "bg-slate-800 hover:bg-slate-700 text-white w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold transition-all" : 
+                "bg-slate-800 text-white w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold opacity-50 cursor-not-allowed transition-all";
+        }
+
+        function executeStepBackwards() {
+            if (structuralNavigationHistoryStack.length <= 1) return;
+            executionBlockSystemInternalTrackingFlag = true;
+            const currentStep = structuralNavigationHistoryStack.pop();
+            structuralNavigationForwardHistoryStack.push(currentStep);
+            const targetStep = structuralNavigationHistoryStack[structuralNavigationHistoryStack.length - 1];
+            executeStructuralStepTransition(targetStep);
+            executionBlockSystemInternalTrackingFlag = false;
+            synchronizeNavigationDockControllers();
+        }
+
+        function executeStepForwards() {
+            if (structuralNavigationForwardHistoryStack.length === 0) return;
+            executionBlockSystemInternalTrackingFlag = true;
+            const nextStep = structuralNavigationForwardHistoryStack.pop();
+            structuralNavigationHistoryStack.push(nextStep);
+            executeStructuralStepTransition(nextStep);
+            executionBlockSystemInternalTrackingFlag = false;
+            synchronizeNavigationDockControllers();
+        }
+
+        function executeStructuralStepTransition(stepNode) {
+            if (stepNode.type === 'SECTION') {
+                if (!document.getElementById('secureViewerPortal').classList.contains('hidden')) {
+                    closeSecurePortalInternal();
                 }
+                const targetEl = document.getElementById(stepNode.target);
+                if (targetEl) targetEl.scrollIntoView({ behavior: 'smooth' });
+            } else if (stepNode.type === 'PDF') {
+                openSecurePortalInternal(stepNode.label, stepNode.target);
             }
-            return localStorage.getItem(chapterId) === 'unlocked';
+        }
+
+        // ================== ANALYTICS INTERCEPTOR PIPELINE ENGINE ==================
+        function initializeAnalyticsFrameworkEngineMetrics() {
+            let stats = localStorage.getItem('baSir_EcosystemSystemAnalyticsStats');
+            if (!stats) {
+                stats = { totalPageViews: 1, uniqueSessions: 1, moduleInteractionsMap: {}, capturedDeviceLogFootprints: [] };
+            } else {
+                stats = JSON.parse(stats);
+                stats.totalPageViews += 1;
+            }
+            localStorage.setItem('baSir_EcosystemSystemAnalyticsStats', JSON.stringify(stats));
+            
+            // Log incoming hardware signature resolution footprints
+            const traceObj = {
+                timestamp: new Date().toLocaleTimeString(),
+                resolution: `${window.screen.width}x${window.screen.height}`,
+                agent: navigator.userAgent
+            };
+            stats.capturedDeviceLogFootprints.push(traceObj);
+            if(stats.capturedDeviceLogFootprints.length > 30) stats.capturedDeviceLogFootprints.shift();
+            localStorage.setItem('baSir_EcosystemSystemAnalyticsStats', JSON.stringify(stats));
+        }
+
+        function registerInternalAnalyticsMetricClick(id, label) {
+            let stats = JSON.parse(localStorage.getItem('baSir_EcosystemSystemAnalyticsStats')) || {};
+            if(!stats.moduleInteractionsMap) stats.moduleInteractionsMap = {};
+            const itemKey = label ? `${label} [${id}]` : id;
+            stats.moduleInteractionsMap[itemKey] = (stats.moduleInteractionsMap[itemKey] || 0) + 1;
+            localStorage.setItem('baSir_EcosystemSystemAnalyticsStats', JSON.stringify(stats));
+        }
+
+        // ================== COMPONENT RENDER PIPELINES ==================
+        function checkModuleUnlockPermission(moduleId) {
+            if(!profileEcosystemState.currentSessionAccountID) return false;
+            const grantsRegistry = JSON.parse(localStorage.getItem('baSir_PermanentAccessGrantsRegistry')) || {};
+            const userGrants = grantsRegistry[profileEcosystemState.currentSessionAccountID] || [];
+            return userGrants.includes(moduleId);
         }
 
         async function createChapterCard(ch) {
-            const unlocked = checkChapterUnlockedStatus(ch.id);
             const card = document.createElement('div');
-            card.className = `bg-white border border-slate-200 rounded-3xl p-7 hover:-translate-y-1 transition-all`;
+            card.className = "bg-white border border-slate-200 rounded-3xl p-6 hover:shadow-md transition-all flex flex-col justify-between";
             
-            const resolvedPath = ch.driveUrl && !ch.driveUrl.includes("YOUR_GOOGLE_DRIVE_VIEW_LINK_HERE") && !ch.driveUrl.includes("YOUR_DRIVE_ID")
-                ? ch.driveUrl 
-                : (ch.path ? `${BASE_URL}${ch.path}` : `${BASE_URL}pdfs/${ch.id}.pdf`);
-
+            const unlocked = checkModuleUnlockPermission(ch.id);
+            const resolvedPath = (ch.driveUrl && !ch.driveUrl.includes("YOUR_DRIVE_ID")) ? ch.driveUrl : `${BASE_URL}${ch.id}.pdf`;
+            
             card.innerHTML = `
-                <div class="flex justify-between mb-6">
+                <div class="flex justify-between items-start mb-4">
                     <div>
-                        <span class="text-xs bg-slate-100 px-3 py-1 rounded">${ch.unit}</span>
-                        <h4 class="font-semibold text-xl mt-3">${ch.title}</h4>
+                        <span class="text-[10px] bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-md font-bold uppercase tracking-wider">${ch.unit}</span>
+                        <h4 class="font-bold text-lg text-slate-900 mt-2 tracking-tight">${ch.title}</h4>
                     </div>
-                    <i class="fas fa-file-pdf text-4xl text-red-500"></i>
+                    <i class="fas ${unlocked ? 'fa-unlock text-emerald-500' : 'fa-lock text-slate-400'} text-2xl mt-1"></i>
                 </div>
-                <div>
-                    <button onclick="${unlocked ? `openSecurePortal('${ch.title}', '${resolvedPath}')` : `initiateModulePayment({id:'${ch.id}', title:'${ch.title}', path:'${resolvedPath}'})`}" 
-                            class="w-full text-center ${unlocked ? 'bg-indigo-600 hover:bg-indigo-700 animate-pulse' : 'bg-blue-600 hover:bg-blue-700'} text-white py-3 rounded-2xl font-medium block">
+                <div class="mt-4">
+                    <button onclick="${unlocked ? `openSecurePortal('${ch.title}', '${resolvedPath}')` : `initiateModulePaymentWorkflow({id:'${ch.id}', title:'${ch.title}', url:'${resolvedPath}'})`}" 
+                            class="w-full text-center ${unlocked ? 'bg-indigo-600 hover:bg-indigo-700 font-bold' : 'bg-blue-600 hover:bg-blue-700 font-medium'} text-white py-3 rounded-2xl text-sm block transition-all shadow-sm">
                         ${unlocked ? '👁️ View Online Only' : 'Pay NPR 50'}
                     </button>
                 </div>
@@ -968,322 +751,64 @@
 
         function createFreeCard(item) {
             const card = document.createElement('div');
-            card.className = `bg-white border border-slate-200 rounded-3xl p-7 hover:-translate-y-1 transition-all`;
+            card.className = "bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between";
+            const resolvedPath = item.driveUrl;
             
-            const resolvedPath = item.driveUrl && !item.driveUrl.includes("YOUR_DRIVE_ID")
-                ? item.driveUrl
-                : `${BASE_URL}${item.path}`;
-
             card.innerHTML = `
-                <div class="flex justify-between mb-6">
+                <div class="flex justify-between items-start mb-4">
                     <div>
-                        <span class="text-xs bg-emerald-50 text-emerald-700 px-3 py-1 rounded font-medium">${item.unit}</span>
-                        <h4 class="font-semibold text-xl mt-3">${item.title}</h4>
+                        <span class="text-[10px] bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-md font-bold uppercase tracking-wider">${item.unit}</span>
+                        <h4 class="font-bold text-lg text-slate-900 mt-2 tracking-tight">${item.title}</h4>
                     </div>
-                    <i class="fas fa-file-pdf text-4xl text-emerald-600"></i>
+                    <i class="fas fa-file-pdf text-2xl text-emerald-600 mt-1"></i>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="openSecurePortal('${item.title}', '${resolvedPath}')" 
-                       class="py-3 text-center border border-slate-300 hover:bg-slate-50 rounded-2xl font-medium block w-full">
+                <div class="grid grid-cols-2 gap-3 mt-4">
+                    <button onclick="openSecurePortal('${item.title}', '${resolvedPath}')" class="py-2.5 text-center text-xs border border-slate-300 hover:bg-slate-50 rounded-xl font-medium block w-full transition-colors">
                         View Online
                     </button>
-                    <a href="${BASE_URL}${item.path}" download class="bg-emerald-600 text-center hover:bg-emerald-700 text-white py-3 rounded-2xl font-medium block">
-                        💾 Save PDF
+                    <a href="${resolvedPath}" target="_blank" class="bg-emerald-600 text-center hover:bg-emerald-700 text-white py-2.5 rounded-xl text-xs font-bold block transition-colors shadow-sm">
+                        💾 Open Link
                     </a>
                 </div>
             `;
             return card;
         }
 
-        function generateSecureWatermarks() {
-            const container = document.getElementById('watermarkContainer');
-            container.innerHTML = '';
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            
-            for (let x = 50; x < width; x += 260) {
-                for (let y = 60; y < height; y += 180) {
-                    const el = document.createElement('div');
-                    el.className = 'watermark-text';
-                    el.style.left = x + 'px';
-                    el.style.top = y + 'px';
-                    
-                    // Bind identity footprint telemetry parameters directly inside generated visual background blocks
-                    const scopeIdentityLabel = profileEcosystemState.currentSessionAccountID ? `USER: ${profileEcosystemState.currentSessionAccountID}` : 'UNREGISTERED GUEST';
-                    el.innerText = `PROTECTED VIEW - ${scopeIdentityLabel} - DO NOT SHARE`;
-                    container.appendChild(el);
-                }
-            }
+        async function populateChapters() {
+            // Grade 11 Population Channels
+            const g11m = document.getElementById('g11-mechanics');
+            for(const ch of g11Mechanics) g11m.appendChild(await createChapterCard(ch));
+            const g11h = document.getElementById('g11-heat');
+            for(const ch of g11Heat) g11h.appendChild(await createChapterCard(ch));
+            const g11w = document.getElementById('g11-wave');
+            for(const ch of g11Wave) g11w.appendChild(await createChapterCard(ch));
+            const g11e = document.getElementById('g11-electricity');
+            for(const ch of g11Electricity) g11e.appendChild(await createChapterCard(ch));
+            const g11mod = document.getElementById('g11-modern');
+            for(const ch of g11Modern) g11mod.appendChild(await createChapterCard(ch));
+
+            // Grade 12 Population Channels
+            const g12m = document.getElementById('g12-mechanics');
+            for(const ch of g12Mechanics) g12m.appendChild(await createChapterCard(ch));
+            const g12h = document.getElementById('g12-heat');
+            for(const ch of g12Heat) g12h.appendChild(await createChapterCard(ch));
+            const g12w = document.getElementById('g12-wave');
+            for(const ch of g12Wave) g12w.appendChild(await createChapterCard(ch));
+            const g12e = document.getElementById('g12-electricity');
+            for(const ch of g12Electricity) g12e.appendChild(await createChapterCard(ch));
+            const g12mod = document.getElementById('g12-modern');
+            for(const ch of g12Modern) g12mod.appendChild(await createChapterCard(ch));
+
+            // Question Collections Container
+            const qcc = document.getElementById('question-collections-container');
+            for(const qc of questionCollectionsData) qcc.appendChild(await createChapterCard(qc));
+
+            // Free Resources Population Elements
+            nebBooksData.forEach(item => document.getElementById('neb-books-container').appendChild(createFreeCard(item)));
+            nebSyllabusData.forEach(item => document.getElementById('neb-syllabus-container').appendChild(createFreeCard(item)));
+            nebChartsData.forEach(item => document.getElementById('neb-charts-container').appendChild(createFreeCard(item)));
         }
 
-        // Zoom Modifier Controller Mechanics Logic Blocks
-        function modifyViewerDisplayZoom(deltaScaleFactor) {
-            globalViewerDisplayScale = Math.max(0.5, Math.min(3.0, globalViewerDisplayScale + deltaScaleFactor));
-            updateViewerDisplayScaleTransform();
-        }
-
-        function resetViewerDisplayZoom() {
-            globalViewerDisplayScale = 1.0;
-            updateViewerDisplayScaleTransform();
-        }
-
-        function updateViewerDisplayScaleTransform() {
-            const wrapper = document.getElementById('frameWrapperContainerScaleElement');
-            if (wrapper) {
-                wrapper.style.transform = `scale(${globalViewerDisplayScale})`;
-                document.getElementById('zoomPercentageTrackerValue').innerText = `${Math.round(globalViewerDisplayScale * 100)}%`;
-            }
-        }
-
-        // Secure Online Viewer portal executing rendering pipeline updates
-        function openSecurePortal(title, pdfUrl) {
-            // Log this action node inside step navigation stack securely
-            logInteractionStep('PDF', pdfUrl, title);
-            openSecurePortalInternal(title, pdfUrl);
-        }
-
-        function openSecurePortalInternal(title, pdfUrl) {
-            document.getElementById('securePortalTitle').innerText = `🔒 Protected Online Mode: ${title}`;
-            
-            let builtViewUrl = pdfUrl;
-            
-            if (pdfUrl.includes("drive.google.com")) {
-                if (pdfUrl.includes("/view")) {
-                    builtViewUrl = pdfUrl.replace("/view", "/preview");
-                } else if (pdfUrl.includes("id=")) {
-                    const params = new URLSearchParams(pdfUrl.split('?')[1]);
-                    const id = params.get('id');
-                    builtViewUrl = `https://drive.google.com/file/d/${id}/preview`;
-                }
-            } else if (!pdfUrl.includes("docs.google.com/viewer")) {
-                builtViewUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true&rm=minimal`;
-            }
-            
-            document.getElementById('secureViewerFrame').src = builtViewUrl;
-            document.getElementById('secureViewerPortal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; 
-            
-            resetViewerDisplayZoom();
-            generateSecureWatermarks();
-            activateSnippingShieldDeflectionTelemetry();
-        }
-
-        function closeSecurePortal() {
-            // Restore contextual fallback section node onto navigation historical track maps
-            logInteractionStep('SECTION', 'home', 'Home Section');
-            closeSecurePortalInternal();
-        }
-
-        function closeSecurePortalInternal() {
-            document.getElementById('secureViewerFrame').src = "";
-            document.getElementById('secureViewerPortal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-            deactivateSnippingShieldDeflectionTelemetry();
-        }
-
-        // Complete anti-theft key monitoring pipeline array
-        window.addEventListener('keydown', function(e) {
-            if (
-                e.keyCode === 123 || 
-                (e.ctrlKey && e.keyCode === 80) || 
-                (e.ctrlKey && e.keyCode === 83) || 
-                (e.ctrlKey && e.keyCode === 67) || 
-                (e.ctrlKey && e.keyCode === 85) ||
-                (e.metaKey && e.keyCode === 80) || 
-                (e.metaKey && e.keyCode === 83) || 
-                (e.metaKey && e.keyCode === 67) || 
-                (e.metaKey && e.shiftKey && e.keyCode === 52) || 
-                (e.metaKey && e.shiftKey && e.keyCode === 51) || 
-                (e.metaKey && e.shiftKey && e.keyCode === 83) || // Blocks Windows Snipping Tool Hotkey (Win+Shift+S)
-                (e.ctrlKey && e.shiftKey && e.keyCode === 73)
-            ) {
-                e.preventDefault();
-                e.stopPropagation();
-                alert("This option is disabled to protect the copyright of materials.");
-                return false;
-            }
-        }, true);
-
-        window.addEventListener('copy', (e) => {
-            e.preventDefault();
-            alert("Copying contents is prohibited.");
-        });
-
-        window.addEventListener('resize', () => {
-            if (!document.getElementById('secureViewerPortal').classList.contains('hidden')) {
-                generateSecureWatermarks();
-            }
-        });
-
-        // Anti-Snipping Tool Realtime Detection Deflection Pipelines Tracker
-        function activateSnippingShieldDeflectionTelemetry() {
-            window.addEventListener('blur', applySnippingShieldVisualMask);
-            window.addEventListener('visibilitychange', handleVisibilityProtectionShift);
-            document.addEventListener('mouseleave', applySnippingShieldVisualMask);
-            window.addEventListener('focus', removeSnippingShieldVisualMask);
-            document.addEventListener('mouseenter', removeSnippingShieldVisualMask);
-        }
-
-        function deactivateSnippingShieldDeflectionTelemetry() {
-            window.removeEventListener('blur', applySnippingShieldVisualMask);
-            window.removeEventListener('visibilitychange', handleVisibilityProtectionShift);
-            document.removeEventListener('mouseleave', applySnippingShieldVisualMask);
-            window.removeEventListener('focus', removeSnippingShieldVisualMask);
-            document.removeEventListener('mouseenter', removeSnippingShieldVisualMask);
-            removeSnippingShieldVisualMask();
-        }
-
-        function applySnippingShieldVisualMask() {
-            const sandbox = document.getElementById('secureViewerSandboxWrapper');
-            if (sandbox) sandbox.classList.add('snipping-detected', 'mobile-capture-shield');
-        }
-
-        function removeSnippingShieldVisualMask() {
-            const sandbox = document.getElementById('secureViewerSandboxWrapper');
-            if (sandbox) sandbox.classList.remove('snipping-detected', 'mobile-capture-shield');
-        }
-
-        function handleVisibilityProtectionShift() {
-            if (document.visibilityState !== 'visible') {
-                applySnippingShieldVisualMask();
-            } else {
-                removeSnippingShieldVisualMask();
-            }
-        }
-
-        // Stream and Screen Recording Monitor Protection API Registration Interceptor
-        if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
-            const originalGetDisplayMedia = navigator.mediaDevices.getDisplayMedia;
-            navigator.mediaDevices.getDisplayMedia = function(constraints) {
-                applySnippingShieldVisualMask();
-                alert("Screen recording and media sharing loops are restricted on this secure digital workspace asset platform.");
-                return Promise.reject(new Error("Content Protection Policy Active. Recording Blocked."));
-            };
-        }
-
-        // Restrict payment dashboard initialization to registered users only
-        function initiateModulePayment(chapter) {
-            if (!profileEcosystemState.currentSessionAccountID) {
-                alert("Access Denied: You must Login or Sign Up to create an account before requesting premium module unlocks.");
-                toggleAuthPortalModal();
-                return;
-            }
-            showPaymentModal(chapter);
-        }
-
-        function showPaymentModal(chapter) {
-            currentPayChapter = chapter;
-            document.getElementById('clientNameInput').value = '';
-            document.getElementById('paymentModal').classList.remove('hidden');
-        }
-
-        function hidePaymentModal() {
-            document.getElementById('paymentModal').classList.add('hidden');
-        }
-
-        function paymentCompleted() {
-            if (!currentPayChapter) return;
-            
-            const inputNameIdValue = document.getElementById('clientNameInput').value.trim();
-            
-            if (!inputNameIdValue) {
-                alert("Please enter your Full Name / ID to allow secure trace mapping allocation processing workflows.");
-                return;
-            }
-
-            // Enforce unified mapping identity policy matching payment ID with session login ID
-            if (inputNameIdValue !== profileEcosystemState.currentSessionAccountID) {
-                alert(`Payment Failure: The provided Payment Name / ID ("${inputNameIdValue}") must strictly match your current authenticated Session Login ID ("${profileEcosystemState.currentSessionAccountID}") to make payment success.`);
-                return;
-            }
-
-            pendingPayments.push({
-                id: Date.now(),
-                client: inputNameIdValue,
-                chapterId: currentPayChapter.id,
-                title: currentPayChapter.title,
-                time: new Date().toLocaleTimeString()
-            });
-            alert(`Request received from "${inputNameIdValue}" for "${currentPayChapter.title}". BA Sir will verify and unlock.`);
-            hidePaymentModal();
-        }
-
-        // Password Secured Modal Access Dashboards Logic Triggers
-        function showAdminPasswordModal() {
-            document.getElementById('adminSecretKeyInput').value = '';
-            document.getElementById('adminAuthModal').classList.remove('hidden');
-        }
-
-        function hideAdminPasswordModal() {
-            document.getElementById('adminAuthModal').classList.add('hidden');
-        }
-
-        function validateAdminAccessGate() {
-            const passwordFieldValue = document.getElementById('adminSecretKeyInput').value;
-            if (passwordFieldValue === "basir@1218") {
-                hideAdminPasswordModal();
-                document.getElementById('adminPanel').classList.remove('hidden');
-                switchAdminSubPanel('PAYMENTS');
-                renderPendingList();
-            } else {
-                alert("Access Denied: Invalid Administrative Identity Security Authorization Token Credentials.");
-            }
-        }
-
-        function hideAdminPanel() {
-            document.getElementById('adminPanel').classList.add('hidden');
-        }
-
-        function renderPendingList() {
-            const container = document.getElementById('pendingList');
-            if (pendingPayments.length === 0) {
-                container.innerHTML = `<p class="text-center text-slate-500 py-12">No pending payments.</p>`;
-                return;
-            }
-            let html = '';
-            pendingPayments.forEach((p, i) => {
-                html += `
-                    <div class="border rounded-2xl p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded">CLIENT / ID</span>
-                                <p class="font-bold text-slate-900">${p.client}</p>
-                            </div>
-                            <p class="font-medium text-sm text-slate-700 mt-1"><span class="text-slate-400">wants:</span> ${p.title}</p>
-                            <p class="text-[11px] text-slate-400 mt-0.5">${p.time}</p>
-                        </div>
-                        <button onclick="approvePayment(${i})" class="bg-emerald-600 text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-emerald-700 text-sm whitespace-nowrap shadow-sm">
-                            ✅ Allow View Online Only
-                        </button>
-                    </div>`;
-            });
-            container.innerHTML = html;
-        }
-
-        function approvePayment(index) {
-            const payment = pendingPayments[index];
-            
-            // Provisions purchase map tracking bindings directly into profile database
-            const database = JSON.parse(localStorage.getItem('baSir_ClientRegistryDatabase')) || {};
-            if (database[payment.client]) {
-                if (!database[payment.client].purchasedModules) {
-                    database[payment.client].purchasedModules = {};
-                }
-                database[payment.client].purchasedModules[payment.chapterId] = true;
-                localStorage.setItem('baSir_ClientRegistryDatabase', JSON.stringify(database));
-            } else {
-                // Anonymous Guest Tracking Key fallback (unused when unified policy active)
-                localStorage.setItem(payment.chapterId, 'unlocked');
-            }
-            
-            alert(`✅ ${payment.title} is now unlocked for protected online reading!`);
-            pendingPayments.splice(index, 1);
-            
-            refreshUIWorkspaceViewports();
-            renderPendingList();
-        }
-
-        // Clear view rendering workspaces contexts containers completely
         function refreshUIWorkspaceViewports() {
             document.getElementById('g11-mechanics').innerHTML = '';
             document.getElementById('g11-heat').innerHTML = '';
@@ -1302,19 +827,19 @@
             populateChapters();
         }
 
-        // Account Membership Management Layout Elements Logic Triggers
+        // ================== SINGLE AUTHENTICATION SYSTEM INTERFACES ==================
         function toggleAuthPortalModal() {
-            const modal = document.getElementById('authPortalModal');
             if (profileEcosystemState.currentSessionAccountID) {
-                // If logged in, button clicks execute session termination sequence parameters directly
+                // Clear state identity parameter safely on explicit click
                 profileEcosystemState.currentSessionAccountID = null;
                 document.getElementById('userGreeting').innerText = "Guest Mode";
                 document.getElementById('authTriggerBtn').innerText = "Login / Sign Up";
-                alert("Profile identity cleared safely.");
+                document.getElementById('onlineDotIndicator').classList.add('hidden');
+                alert("Identity mapping cleared successfully.");
                 refreshUIWorkspaceViewports();
                 return;
             }
-            modal.classList.toggle('hidden');
+            document.getElementById('authPortalModal').classList.toggle('hidden');
         }
 
         function toggleAuthTab(targetTabMode) {
@@ -1322,7 +847,6 @@
             const loginHead = document.getElementById('tabLoginHead');
             const registerHead = document.getElementById('tabRegisterHead');
             const actionBtn = document.getElementById('authPrimaryActionButton');
-            
             if (targetTabMode === 'LOGIN') {
                 loginHead.className = "flex-1 pb-3 text-center border-b-2 border-blue-600 text-blue-600";
                 registerHead.className = "flex-1 pb-3 text-center text-slate-400 border-b-2 border-transparent";
@@ -1330,85 +854,395 @@
             } else {
                 registerHead.className = "flex-1 pb-3 text-center border-b-2 border-blue-600 text-blue-600";
                 loginHead.className = "flex-1 pb-3 text-center text-slate-400 border-b-2 border-transparent";
-                actionBtn.innerText = "Register Account Profile";
+                actionBtn.innerText = "Register Identity Profile";
             }
         }
 
         function executeAuthenticationPipeline() {
-            const emailInputVal = document.getElementById('authEmailField').value.trim();
-            const passwordInputVal = document.getElementById('authPasswordField').value;
+            const uid = document.getElementById('authEmailField').value.trim();
+            const pass = document.getElementById('authPasswordField').value;
+            if(!uid || !pass) { alert("Please complete credentials requirements inputs."); return; }
             
-            if (!emailInputVal || !passwordInputVal) {
-                alert("Please fill in all requested identity identification access key parameters fields.");
+            let registry = JSON.parse(localStorage.getItem('baSir_ClientRegistryDatabase'));
+            let auditLogs = JSON.parse(localStorage.getItem('baSir_InternalAuditLoginLogs')) || [];
+            
+            if(profileEcosystemState.activeAuthenticationTab === 'REGISTER') {
+                if(registry[uid]) { alert("Error: Account Identity ID already exists."); return; }
+                registry[uid] = pass;
+                localStorage.setItem('baSir_ClientRegistryDatabase', JSON.stringify(registry));
+                alert("Account created successfully! Auto-logging in...");
+            } else {
+                if(!registry[uid] || registry[uid] !== pass) { alert("Access Failure: Invalid Authentication Credentials."); return; }
+            }
+            
+            // Set shared account parameters globally
+            profileEcosystemState.currentSessionAccountID = uid;
+            document.getElementById('userGreeting').innerText = `ID: ${uid}`;
+            document.getElementById('authTriggerBtn').innerText = "Logout";
+            document.getElementById('onlineDotIndicator').classList.remove('hidden');
+            document.getElementById('authPortalModal').classList.add('hidden');
+            
+            // Record login auditing history trace
+            auditLogs.push({ uid, timestamp: new Date().toLocaleString(), context: navigator.userAgent });
+            localStorage.setItem('baSir_InternalAuditLoginLogs', JSON.stringify(auditLogs));
+            
+            alert(`Welcome back, ${uid}! Permanent profile mapped.`);
+            refreshUIWorkspaceViewports();
+        }
+
+        // ================== QR PAYMENT VERIFICATION WORKFLOWS ==================
+        function initiateModulePaymentWorkflow(chObj) {
+            if(!profileEcosystemState.currentSessionAccountID) {
+                alert("Authentication Required: Please login / sign up to obtain a unique Login ID before initiating secure billing pipelines.");
+                toggleAuthPortalModal();
+                return;
+            }
+            currentPayChapter = chObj;
+            document.getElementById('targetChapterTitle').innerText = chObj.title;
+            document.getElementById('clientNameInput').value = profileEcosystemState.currentSessionAccountID;
+            document.getElementById('paymentModal').classList.remove('hidden');
+        }
+
+        function hidePaymentModal() {
+            document.getElementById('paymentModal').classList.add('hidden');
+            currentPayChapter = null;
+        }
+
+        function submitPaymentVerificationRequest() {
+            if(!currentPayChapter) return;
+            let pendingQueue = JSON.parse(localStorage.getItem('baSir_PendingPaymentSubmissionsQueue')) || [];
+            
+            const reqNode = {
+                requestId: "REQ-" + Date.now(),
+                clientID: profileEcosystemState.currentSessionAccountID,
+                moduleId: currentPayChapter.id,
+                moduleTitle: currentPayChapter.title,
+                timestamp: new Date().toLocaleString()
+            };
+            
+            pendingQueue.push(reqNode);
+            localStorage.setItem('baSir_PendingPaymentSubmissionsQueue', JSON.stringify(pendingQueue));
+            alert("Verification Request Logged! It is now safely stored inside the database audit registers. BA Sir will evaluate and unlock access permanently.");
+            hidePaymentModal();
+        }
+
+        // ================== ADMINISTRATIVE DASHBOARD PARAMETERS ==================
+        function showAdminPasswordModal() {
+            document.getElementById('adminSecretKeyInput').value = '';
+            document.getElementById('adminAuthModal').classList.remove('hidden');
+        }
+        function hideAdminPasswordModal() {
+            document.getElementById('adminAuthModal').classList.add('hidden');
+        }
+
+        function validateAdminAccessGate() {
+            if(document.getElementById('adminSecretKeyInput').value === "dream@1218!") {
+                hideAdminPasswordModal();
+                document.getElementById('adminPanel').classList.remove('hidden');
+                switchAdminSubPanel('PAYMENTS');
+            } else {
+                alert("Access Denied: Invalid Administrative Identity Security Authorization Token.");
+            }
+        }
+        function hideAdminPanel() { document.getElementById('adminPanel').classList.add('hidden'); }
+
+        function switchAdminSubPanel(tab) {
+            const tabs = ['PAYMENTS', 'ANALYTICS', 'RECORDS'];
+            tabs.forEach(t => {
+                document.getElementById(`admin${t.charAt(0) + t.slice(1).toLowerCase()}TabHead`).className = "px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800";
+                document.getElementById(`admin${t.charAt(0) + t.slice(1).toLowerCase()}SubBlock`).classList.add('hidden');
+            });
+            
+            document.getElementById(`admin${tab.charAt(0) + tab.slice(1).toLowerCase()}TabHead`).className = "px-6 py-3 border-b-2 border-blue-600 text-blue-600";
+            document.getElementById(`admin${tab.charAt(0) + tab.slice(1).toLowerCase()}SubBlock`).classList.remove('hidden');
+            
+            if(tab === 'PAYMENTS') renderPendingApprovalsWorkflowQueue();
+            if(tab === 'ANALYTICS') renderAdminAnalyticsDashboardViewports();
+        }
+
+        function renderPendingApprovalsWorkflowQueue() {
+            const container = document.getElementById('pendingList');
+            const queue = JSON.parse(localStorage.getItem('baSir_PendingPaymentSubmissionsQueue')) || [];
+            
+            if (queue.length === 0) {
+                container.innerHTML = `<p class="text-center text-slate-400 py-8 text-xs font-medium">No system pending requests mapped.</p>`;
                 return;
             }
             
-            let database = JSON.parse(localStorage.getItem('baSir_ClientRegistryDatabase')) || {};
+            let html = '';
+            queue.forEach((item, index) => {
+                html += `
+                    <div class="border rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white shadow-sm text-xs">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded text-[10px]">STUDENT ID</span>
+                                <span class="font-mono font-bold text-slate-900">${item.clientID}</span>
+                            </div>
+                            <p class="font-bold text-slate-700 mt-2">Wants Code: <span class="text-indigo-600 font-mono">${item.moduleTitle} (${item.moduleId})</span></p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">${item.timestamp}</p>
+                        </div>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            <button onclick="executeAdminApprovalPipeline(${index}, true)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl flex-1 sm:flex-none">Approve & Unlock</button>
+                            <button onclick="executeAdminApprovalPipeline(${index}, false)" class="bg-slate-200 hover:bg-slate-300 text-slate-600 px-3 py-2 rounded-xl">Reject</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function executeAdminApprovalPipeline(index, isApproved) {
+            let queue = JSON.parse(localStorage.getItem('baSir_PendingPaymentSubmissionsQueue')) || [];
+            let grants = JSON.parse(localStorage.getItem('baSir_PermanentAccessGrantsRegistry')) || {};
+            let paymentLogs = JSON.parse(localStorage.getItem('baSir_InternalAuditPaymentLogs')) || [];
             
-            if (profileEcosystemState.activeAuthenticationTab === 'REGISTER') {
-                if (database[emailInputVal]) {
-                    alert("This identifier token is already mapped to an existing active membership registry database profile block.");
-                    return;
+            const item = queue[index];
+            if(!item) return;
+            
+            if(isApproved) {
+                if(!grants[item.clientID]) grants[item.clientID] = [];
+                if(!grants[item.clientID].includes(item.moduleId)) {
+                    grants[item.clientID].push(item.moduleId);
                 }
-                database[emailInputVal] = {
-                    password: passwordInputVal,
-                    purchasedModules: {}
-                };
-                localStorage.setItem('baSir_ClientRegistryDatabase', JSON.stringify(database));
-                alert("Account established and synchronized successfully! You can now log into your profile.");
-                toggleAuthTab('LOGIN');
+                localStorage.setItem('baSir_PermanentAccessGrantsRegistry', JSON.stringify(grants));
+                
+                // Add to payment records audit log mapping ledger
+                paymentLogs.push({
+                    clientID: item.clientID, moduleId: item.moduleId, moduleTitle: item.moduleTitle,
+                    amount: "NPR 50", approvedAt: new Date().toLocaleString()
+                });
+                localStorage.setItem('baSir_InternalAuditPaymentLogs', JSON.stringify(paymentLogs));
+                alert(`Approved! Permanent lock converted to view access for ${item.clientID}`);
             } else {
-                // Process Login
-                const existingProfile = database[emailInputVal];
-                if (!existingProfile || existingProfile.password !== passwordInputVal) {
-                    alert("Invalid Identity Configuration parameters token references verification keys.");
-                    return;
-                }
-                profileEcosystemState.currentSessionAccountID = emailInputVal;
-                document.getElementById('userGreeting').innerText = emailInputVal;
-                document.getElementById('authTriggerBtn').innerText = "Logout";
-                toggleAuthPortalModal();
-                alert(`Welcome back! Identity context initialized for profile: ${emailInputVal}`);
-                refreshUIWorkspaceViewports();
+                alert("Request dismissed from buffer queue.");
+            }
+            
+            queue.splice(index, 1);
+            localStorage.setItem('baSir_PendingPaymentSubmissionsQueue', JSON.stringify(queue));
+            renderPendingApprovalsWorkflowQueue();
+            refreshUIWorkspaceViewports();
+        }
+
+        function renderAdminAnalyticsDashboardViewports() {
+            const stats = JSON.parse(localStorage.getItem('baSir_EcosystemSystemAnalyticsStats')) || {};
+            const registry = JSON.parse(localStorage.getItem('baSir_ClientRegistryDatabase')) || {};
+            
+            document.getElementById('metricPageViewsVal').innerText = stats.totalPageViews || 1;
+            document.getElementById('metricSessionsVal').innerText = stats.uniqueSessions || 1;
+            
+            let clicks = 0;
+            if (stats.moduleInteractionsMap) Object.values(stats.moduleInteractionsMap).forEach(v => clicks += v);
+            document.getElementById('metricClicksVal').innerText = clicks;
+            document.getElementById('metricRegUsersVal').innerText = Object.keys(registry).length || 0;
+            
+            // Interactions map rows renderer
+            const interContainer = document.getElementById('analyticsChapterInteractionModeLogs');
+            if(stats.moduleInteractionsMap && Object.keys(stats.moduleInteractionsMap).length > 0) {
+                let html = '';
+                Object.entries(stats.moduleInteractionsMap).forEach(([k, v]) => {
+                    html += `<div class="flex justify-between items-center bg-slate-100 p-2 border border-slate-200 rounded-xl">
+                        <span class="font-mono font-bold text-slate-700 truncate max-w-[260px]">${k}</span>
+                        <span class="bg-blue-600 text-white font-extrabold px-2 py-0.5 rounded-lg text-[10px]">${v} Hits</span>
+                    </div>`;
+                });
+                interContainer.innerHTML = html;
+            } else {
+                interContainer.innerHTML = `<p class="text-slate-400 text-center py-4">No tracking hits caught.</p>`;
+            }
+
+            // Environment logs records renderer
+            const logContainer = document.getElementById('analyticsDeviceLogsContainer');
+            if(stats.capturedDeviceLogFootprints && stats.capturedDeviceLogFootprints.length > 0) {
+                let html = '';
+                stats.capturedDeviceLogFootprints.forEach(log => {
+                    html += `<div class="bg-slate-100 p-2 border border-slate-200 rounded-xl space-y-0.5">
+                        <div class="flex justify-between font-bold text-slate-800 text-[10px]">
+                            <span>${log.timestamp}</span> <span class="text-indigo-600">${log.resolution}</span>
+                        </div>
+                        <p class="text-[9px] text-slate-400 truncate">${log.agent}</p>
+                    </div>`;
+                });
+                logContainer.innerHTML = html;
+            } else {
+                logContainer.innerHTML = `<p class="text-slate-400 text-center py-4">No environment logs traced.</p>`;
             }
         }
 
-        async function populateChapters() {
-            // Grade 11
-            for (const ch of g11Mechanics) document.getElementById('g11-mechanics').appendChild(await createChapterCard(ch));
-            for (const ch of g11Heat) document.getElementById('g11-heat').appendChild(await createChapterCard(ch));
-            for (const ch of g11Wave) document.getElementById('g11-wave').appendChild(await createChapterCard(ch));
-            for (const ch of g11Electricity) document.getElementById('g11-electricity').appendChild(await createChapterCard(ch));
-            for (const ch of g11Modern) document.getElementById('g11-modern').appendChild(await createChapterCard(ch));
-
-            // Grade 12
-            for (const ch of g12Mechanics) document.getElementById('g12-mechanics').appendChild(await createChapterCard(ch));
-            for (const ch of g12Heat) document.getElementById('g12-heat').appendChild(await createChapterCard(ch));
-            for (const ch of g12Wave) document.getElementById('g12-wave').appendChild(await createChapterCard(ch));
-            for (const ch of g12Electricity) document.getElementById('g12-electricity').appendChild(await createChapterCard(ch));
-            for (const ch of g12Modern) document.getElementById('g12-modern').appendChild(await createChapterCard(ch));
-
-            // Question Collections
-            for (const qc of questionCollectionsData) document.getElementById('question-collections-container').appendChild(await createChapterCard(qc));
-
-            // NEB Books
-            nebBooksData.forEach(item => document.getElementById('neb-books-container').appendChild(createFreeCard(item)));
-
-            // NEB Syllabus
-            nebSyllabusData.forEach(item => document.getElementById('neb-syllabus-container').appendChild(createFreeCard(item)));
-
-            // NEB Charts & Model Questions
-            nebChartsData.forEach(item => document.getElementById('neb-charts-container').appendChild(createFreeCard(item)));
+        // Generate and dispatch dynamic downloadable plain text documents on demand
+        function downloadAdminSystemDocument(documentIdentityMode) {
+            let dataString = "";
+            let filename = "system_report.txt";
+            
+            if(documentIdentityMode === 'LOGIN_RECORDS') {
+                filename = "basir_ecosystem_login_records.txt";
+                const records = JSON.parse(localStorage.getItem('baSir_InternalAuditLoginLogs')) || [];
+                dataString = "====================================================\n" + 
+                             "     BASANTA ACHARYA ECOSYSTEM LOGIN RECORDS REPORT   \n" + 
+                             "====================================================\n\n";
+                if(records.length === 0) dataString += "No login trace items available inside the ledger logs.";
+                records.forEach((r, i) => {
+                    dataString += `[Record #${i+1}] Timestamp: ${r.timestamp} | Login ID Account: ${r.uid}\n  Device Fingerprint Context: ${r.context}\n----------------------------------------------------\n`;
+                });
+            } else if(documentIdentityMode === 'PAYMENT_RECORDS') {
+                filename = "basir_ecosystem_payment_records.txt";
+                const ledgers = JSON.parse(localStorage.getItem('baSir_InternalAuditPaymentLogs')) || [];
+                dataString = "====================================================\n" + 
+                             "     BASANTA ACHARYA ECOSYSTEM PAYMENT LEDGER SHEET   \n" + 
+                             "====================================================\n\n";
+                if(ledgers.length === 0) dataString += "No processed transactions verified in ledger registers.";
+                ledgers.forEach((l, i) => {
+                    dataString += `[Log Item #${i+1}] Approved Timestamp: ${l.approvedAt}\n  Account Mapping ID: ${l.clientID}\n  Unlocked Code Target: ${l.moduleTitle} (${l.moduleId})\n  Standard Billing Tier: ${l.amount}\n----------------------------------------------------\n`;
+                });
+            }
+            
+            const blob = new Blob([dataString], { type: 'text/plain;charset=utf-8;' });
+            const urlNode = URL.createObjectURL(blob);
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.href = urlNode;
+            downloadAnchor.setAttribute('download', filename);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            document.body.removeChild(downloadAnchor);
         }
 
-        window.onload = () => {
-            populateChapters();
-            initializeAnalyticsFrameworkEngineMetrics();
+        // ================== PROTECTED EMBEDDED DRIVE VIEWER SYSTEM ==================
+        function openSecurePortal(title, targetUrl) {
+            logInteractionStep('PDF', targetUrl, title);
+            openSecurePortalInternal(title, targetUrl);
+        }
+
+        function openSecurePortalInternal(title, url) {
+            document.getElementById('secureViewerTitle').innerText = title;
+            let finalUrl = url;
             
-            // Set primary contextual state point
+            // Protected viewer injection architecture converting standard layout links safely
+            if(url.includes('drive.google.com')) {
+                if(url.includes('/view')) {
+                    finalUrl = url.replace('/view', '/preview');
+                } else if(url.includes('?id=')) {
+                    finalUrl = url.replace('file/d/', 'file/d/').replace('?id=', 'preview?id=');
+                }
+            } else {
+                finalUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true&rm=minimal`;
+            }
+            
+            document.getElementById('secureViewerFrame').src = finalUrl;
+            document.getElementById('secureViewerPortal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            resetViewerDisplayZoom();
+            generateSecureDynamicWatermarks();
+            activateScreenCaptureProtectionShield();
+        }
+
+        function closeSecurePortal() {
+            logInteractionStep('SECTION', 'home', 'Home Section');
+            closeSecurePortalInternal();
+        }
+
+        function closeSecurePortalInternal() {
+            document.getElementById('secureViewerFrame').src = "";
+            document.getElementById('secureViewerPortal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            deactivateScreenCaptureProtectionShield();
+        }
+
+        // ================== SCROLL + ZOOM HANDLING WORKSPACE VIEWPORTS ==================
+        function adjustViewerDisplayZoom(zoomDelta) {
+            activeViewerZoomScale = Math.min(Math.max(activeViewerZoomScale + zoomDelta, 0.5), 3.0);
+            updateViewerTransformDisplayState();
+        }
+
+        function resetViewerDisplayZoom() {
+            activeViewerZoomScale = 1.0;
+            updateViewerTransformDisplayState();
+        }
+
+        function updateViewerTransformDisplayState() {
+            document.getElementById('secureFrameWrapper').style.transform = `scale(${activeViewerZoomScale})`;
+            document.getElementById('zoomPercentageIndicator').innerText = `${Math.round(activeViewerZoomScale * 100)}%`;
+        }
+
+        // Dynamic Watermarking Text Generation Architecture Loop
+        function generateSecureDynamicWatermarks() {
+            const container = document.getElementById('watermarkContainer');
+            container.innerHTML = '';
+            const userIdMark = profileEcosystemState.currentSessionAccountID || 'GUEST-UNVERIFIED';
+            
+            for (let x = 40; x < window.innerWidth; x += 280) {
+                for (let y = 60; y < window.innerHeight; y += 220) {
+                    const block = document.createElement('div');
+                    block.className = 'watermark-text';
+                    block.style.left = `${x}px`;
+                    block.style.top = `${y}px`;
+                    block.innerText = `${userIdMark} @ BA SIR VAULT`;
+                    container.appendChild(block);
+                }
+            }
+        }
+
+        // ================== FULL ANTI-THEFT AND DETERRENCE MONITORING METRICS ==================
+        window.addEventListener('keydown', function(e) {
+            if (
+                e.keyCode === 123 || // F12 Key DevTools
+                (e.ctrlKey && e.keyCode === 80) || // Ctrl+P Print
+                (e.ctrlKey && e.keyCode === 83) || // Ctrl+S Save
+                (e.ctrlKey && e.keyCode === 67) || // Ctrl+C Copy
+                (e.ctrlKey && e.keyCode === 85) || // Ctrl+U Source view
+                (e.metaKey && e.keyCode === 80) || // Mac Cmd+P
+                (e.metaKey && e.keyCode === 83) || // Mac Cmd+S
+                (e.metaKey && e.keyCode === 67) || // Mac Cmd+C
+                (e.metaKey && e.shiftKey && e.keyCode === 52) || // Mac Screenshot Shift+Cmd+4
+                (e.metaKey && e.shiftKey && e.keyCode === 51) || // Mac Screenshot Shift+Cmd+3
+                (e.metaKey && e.shiftKey && e.keyCode === 83) || // Win+Shift+S Snipping tool hotkey
+                (e.ctrlKey && e.shiftKey && e.keyCode === 73)    // Ctrl+Shift+I DevTools
+            ) {
+                e.preventDefault();
+                e.stopPropagation();
+                alert("Action Blocked: Content protection measures are active to safeguard materials copyright ownership.");
+                return false;
+            }
+        }, true);
+
+        window.addEventListener('copy', (e) => {
+            e.preventDefault();
+            alert("Copying text materials content from this ecosystem portal is strictly prohibited.");
+        });
+
+        window.addEventListener('resize', () => {
+            if (!document.getElementById('secureViewerPortal').classList.contains('hidden')) {
+                generateSecureDynamicWatermarks();
+            }
+        });
+
+        function applySnippingShieldVisualBlur() {
+            document.getElementById('viewerContainerScroller').classList.add('snipping-detected');
+        }
+        function removeSnippingShieldVisualBlur() {
+            document.getElementById('viewerContainerScroller').classList.remove('snipping-detected');
+        }
+
+        function activateScreenCaptureProtectionShield() {
+            window.addEventListener('blur', applySnippingShieldVisualBlur);
+            document.addEventListener('mouseleave', applySnippingShieldVisualBlur);
+            window.addEventListener('focus', removeSnippingShieldVisualBlur);
+            document.addEventListener('mouseenter', removeSnippingShieldVisualBlur);
+        }
+
+        function deactivateScreenCaptureProtectionShield() {
+            window.removeEventListener('blur', applySnippingShieldVisualBlur);
+            document.removeEventListener('mouseleave', applySnippingShieldVisualBlur);
+            window.removeEventListener('focus', removeSnippingShieldVisualBlur);
+            document.removeEventListener('mouseenter', removeSnippingShieldVisualBlur);
+            removeSnippingShieldVisualBlur();
+        }
+
+        // ================== INITIALIZATION ENTRYPOINT ==================
+        window.onload = () => {
+            initializeAnalyticsFrameworkEngineMetrics();
+            populateChapters();
             logInteractionStep('SECTION', 'home', 'Home Section');
 
-            // Hook native click interactions onto top navigation element structures safely
+            // Secure Top Navigation Element Structures smooth event listener click mapping triggers safely
             document.querySelectorAll('.block-nav-link').forEach(link => {
                 link.addEventListener('click', function(e) {
                     const cleanTargetId = this.getAttribute('href').replace('#', '');
