@@ -33,27 +33,33 @@
         .protection-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-image: repeating-linear-gradient(45deg, rgba(30, 41, 59, 0.01) 0px, rgba(30, 41, 59, 0.01) 2px, transparent 2px, transparent 10px);
+            background-image: repeating-linear-gradient(45deg, rgba(30, 41, 59, 0.02) 0px, rgba(30, 41, 59, 0.02) 2px, transparent 2px, transparent 10px);
             pointer-events: none;
             z-index: 150;
         }
 
         .watermark-text {
             position: absolute;
-            font-size: 14px;
-            color: rgba(100, 116, 139, 0.08);
-            transform: rotate(-35deg);
+            font-size: 13px;
+            color: rgba(100, 116, 139, 0.14);
+            transform: rotate(-30deg);
             white-space: nowrap;
             pointer-events: none;
-            font-weight: 700;
+            font-weight: 800;
             z-index: 149;
             user-select: none;
         }
 
         /* Video and Snipping Recording Masking Filter */
         .snipping-detected {
-            filter: blur(80px) brightness(0) !important;
+            filter: blur(90px) brightness(0) !important;
             background: #0f172a !important;
+        }
+
+        /* Mobile screenshot deterrence overlay on touch gestures */
+        .mobile-shield {
+            background: rgba(15, 23, 42, 0.98) !important;
+            filter: blur(40px);
         }
 
         /* Scroll + Zoom Online Viewer Container Design */
@@ -301,7 +307,7 @@
             <div class="bg-gradient-to-r from-blue-50 via-cyan-50 to-transparent border border-blue-200 rounded-3xl p-8 mb-6 border-b-4 border-b-blue-600 shadow-sm">
                 <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3"><i class="fas fa-book-open text-blue-600"></i> NEB Books - Physics</h2>
             </div>
-            <div id="neb-books-container" class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"></div>
+            <div id="neb-books-container" class="grid md:grid-cols-1 gap-8 max-w-2xl mx-auto"></div>
         </div>
     </section>
 
@@ -310,7 +316,7 @@
             <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-transparent border border-emerald-200 rounded-3xl p-8 mb-6 border-b-4 border-b-emerald-600 shadow-sm">
                 <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3"><i class="fas fa-scroll text-emerald-600"></i> NEB Syllabus - Physics</h2>
             </div>
-            <div id="neb-syllabus-container" class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"></div>
+            <div id="neb-syllabus-container" class="grid md:grid-cols-1 gap-8 max-w-2xl mx-auto"></div>
         </div>
     </section>
 
@@ -319,7 +325,7 @@
             <div class="bg-gradient-to-r from-purple-50 via-fuchsia-50 to-transparent border border-purple-200 rounded-3xl p-8 mb-6 border-b-4 border-b-purple-600 shadow-sm">
                 <h2 class="text-4xl font-bold text-slate-900 tracking-tight flex items-center gap-3"><i class="fas fa-chart-bar text-purple-600"></i> Model Questions & Specification Chart-Physics</h2>
             </div>
-            <div id="neb-charts-container" class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto"></div>
+            <div id="neb-charts-container" class="grid md:grid-cols-1 gap-8 max-w-2xl mx-auto"></div>
         </div>
     </section>
 
@@ -491,7 +497,8 @@
             <div id="watermarkContainer" class="absolute inset-0 pointer-events-none overflow-hidden z-40"></div>
             <div class="protection-overlay"></div>
             <div id="secureFrameWrapper" class="secure-frame-wrapper">
-                <iframe id="secureViewerFrame" src="" allow="autoplay"></iframe>
+                <!-- Sandbox attribute added with specific omission of allow-popups and allow-top-navigation to prevent file pop-outs and sharing -->
+                <iframe id="secureViewerFrame" src="" allow="autoplay" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
             </div>
         </div>
     </div>
@@ -503,7 +510,7 @@
         
         // Exact Preservation of all Chapter Objects data mappings
         const g11Mechanics = [
-            {id: "g11_1", title: "Physical Quantities", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1csZ5vGVlyQjg74R9NWI6DfXp9XRx67vO/view?usp=sharing/preview"},
+            {id: "g11_1", title: "Physical Quantities", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1csZ5vGVlyQjg74R9NWI6DfXp9XRx67vO/preview"},
             {id: "g11_2", title: "Vectors", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_VECTORS/view?usp=sharing"},
             {id: "g11_3", title: "Kinematics", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_KINEMATICS/view?usp=sharing"},
             {id: "g11_4", title: "Dynamics", unit: "Mechanics", driveUrl: "https://drive.google.com/file/d/1_YOUR_DRIVE_ID_DYNAMICS/view?usp=sharing"},
@@ -588,18 +595,18 @@
         ];
 
         const nebBooksData = [
-            {title: "Grade 11 Physics Text Book", unit: "Free Textbook Reference", driveUrl: "https://drive.google.com/file/d/1esqJ1I22v8mLSSuabBqOsgAbWfPy3syJ/view?usp=sharing/preview"},
-            {title: "Grade 12 Physics Text Book", unit: "Free Textbook Reference", driveUrl: "https://drive.google.com/file/d/174NNNXSebQcqPgfTDIR6-0nre32Z1UO0/view?usp=sharing/preview"}
+            {title: "Grade 11 Physics Text Book", unit: "Free Textbook Reference", driveUrl: "https://drive.google.com/file/d/1esqJ1I22v8mLSSuabBqOsgAbWfPy3syJ/preview"},
+            {title: "Grade 12 Physics Text Book", unit: "Free Textbook Reference", driveUrl: "https://drive.google.com/file/d/174NNNXSebQcqPgfTDIR6-0nre32Z1UO0/preview"}
         ];
 
         const nebSyllabusData = [
-            {title: "Grade 11 Physics Curriculum ", unit: "Official Syllabus", driveUrl: "https://drive.google.com/file/d/12N8hEZqKaE346UV-ctdZQcXlq3xIGy0s/view?usp=sharing/preview"},
-            {title: "Grade 12 Physics Curriculum ", unit: "Official Syllabus", driveUrl: "https://drive.google.com/file/d/1OQrdy1OaciyPxXV4A-BxZmuNR73NeY2T/view?usp=sharing/preview"}
+            {title: "Grade 11 Physics Curriculum ", unit: "Official Syllabus", driveUrl: "https://drive.google.com/file/d/12N8hEZqKaE346UV-ctdZQcXlq3xIGy0s/preview"},
+            {title: "Grade 12 Physics Curriculum ", unit: "Official Syllabus", driveUrl: "https://drive.google.com/file/d/1OQrdy1OaciyPxXV4A-BxZmuNR73NeY2T/preview"}
         ];
 
         const nebChartsData = [
-            {title: "Grade-11 NEB Physics ", unit: "Marking Grid Scheme", driveUrl: "https://drive.google.com/file/d/1_atkgYYGx1X2ZmB1KEsWUPa-BpPzfoZb/view?usp=sharing/preview"},
-            {title: "Grade-12 NEB Physics", unit: "Marking Grid Scheme", driveUrl: "https://drive.google.com/file/d/1_IzUzvv5CALRIVl-bxdO7KhOnUDrwEwf/view?usp=sharing/preview"}
+            {title: "Grade-11 NEB Physics ", unit: "Marking Grid Scheme", driveUrl: "https://drive.google.com/file/d/1_atkgYYGx1X2ZmB1KEsWUPa-BpPzfoZb/preview"},
+            {title: "Grade-12 NEB Physics", unit: "Marking Grid Scheme", driveUrl: "https://drive.google.com/file/d/1_IzUzvv5CALRIVl-bxdO7KhOnUDrwEwf/preview"}
         ];
 
         // ================== REACTIVE ENGINE DATA STATE POINT WORKSPACES ==================
@@ -613,7 +620,6 @@
         let executionBlockSystemInternalTrackingFlag = false;
 
         // Offline Unified Database Simulators 
-        // Initializing Registry, Permissions maps and System records securely inside localStorage
         if(!localStorage.getItem('baSir_ClientRegistryDatabase')) {
             localStorage.setItem('baSir_ClientRegistryDatabase', JSON.stringify({
                 "student1": "pass123", "neb2026": "physics"
@@ -697,7 +703,6 @@
             }
             localStorage.setItem('baSir_EcosystemSystemAnalyticsStats', JSON.stringify(stats));
             
-            // Log incoming hardware signature resolution footprints
             const traceObj = {
                 timestamp: new Date().toLocaleTimeString(),
                 resolution: `${window.screen.width}x${window.screen.height}`,
@@ -754,6 +759,7 @@
             card.className = "bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between";
             const resolvedPath = item.driveUrl;
             
+            // "Open Link" features completely removed as requested. Only View Online within secure vault remains.
             card.innerHTML = `
                 <div class="flex justify-between items-start mb-4">
                     <div>
@@ -762,20 +768,16 @@
                     </div>
                     <i class="fas fa-file-pdf text-2xl text-emerald-600 mt-1"></i>
                 </div>
-                <div class="grid grid-cols-2 gap-3 mt-4">
-                    <button onclick="openSecurePortal('${item.title}', '${resolvedPath}')" class="py-2.5 text-center text-xs border border-slate-300 hover:bg-slate-50 rounded-xl font-medium block w-full transition-colors">
-                        View Online
+                <div class="mt-4">
+                    <button onclick="openSecurePortal('${item.title}', '${resolvedPath}')" class="w-full bg-slate-900 text-white py-3 hover:bg-slate-800 rounded-2xl font-semibold text-sm block w-full transition-all shadow-sm">
+                        👁️ View Document Online
                     </button>
-                    <a href="${resolvedPath}" target="_blank" class="bg-emerald-600 text-center hover:bg-emerald-700 text-white py-2.5 rounded-xl text-xs font-bold block transition-colors shadow-sm">
-                        💾 Open Link
-                    </a>
                 </div>
             `;
             return card;
         }
 
         async function populateChapters() {
-            // Grade 11 Population Channels
             const g11m = document.getElementById('g11-mechanics');
             for(const ch of g11Mechanics) g11m.appendChild(await createChapterCard(ch));
             const g11h = document.getElementById('g11-heat');
@@ -787,7 +789,6 @@
             const g11mod = document.getElementById('g11-modern');
             for(const ch of g11Modern) g11mod.appendChild(await createChapterCard(ch));
 
-            // Grade 12 Population Channels
             const g12m = document.getElementById('g12-mechanics');
             for(const ch of g12Mechanics) g12m.appendChild(await createChapterCard(ch));
             const g12h = document.getElementById('g12-heat');
@@ -799,11 +800,9 @@
             const g12mod = document.getElementById('g12-modern');
             for(const ch of g12Modern) g12mod.appendChild(await createChapterCard(ch));
 
-            // Question Collections Container
             const qcc = document.getElementById('question-collections-container');
             for(const qc of questionCollectionsData) qcc.appendChild(await createChapterCard(qc));
 
-            // Free Resources Population Elements
             nebBooksData.forEach(item => document.getElementById('neb-books-container').appendChild(createFreeCard(item)));
             nebSyllabusData.forEach(item => document.getElementById('neb-syllabus-container').appendChild(createFreeCard(item)));
             nebChartsData.forEach(item => document.getElementById('neb-charts-container').appendChild(createFreeCard(item)));
@@ -830,7 +829,6 @@
         // ================== SINGLE AUTHENTICATION SYSTEM INTERFACES ==================
         function toggleAuthPortalModal() {
             if (profileEcosystemState.currentSessionAccountID) {
-                // Clear state identity parameter safely on explicit click
                 profileEcosystemState.currentSessionAccountID = null;
                 document.getElementById('userGreeting').innerText = "Guest Mode";
                 document.getElementById('authTriggerBtn').innerText = "Login / Sign Up";
@@ -875,14 +873,12 @@
                 if(!registry[uid] || registry[uid] !== pass) { alert("Access Failure: Invalid Authentication Credentials."); return; }
             }
             
-            // Set shared account parameters globally
             profileEcosystemState.currentSessionAccountID = uid;
             document.getElementById('userGreeting').innerText = `ID: ${uid}`;
             document.getElementById('authTriggerBtn').innerText = "Logout";
             document.getElementById('onlineDotIndicator').classList.remove('hidden');
             document.getElementById('authPortalModal').classList.add('hidden');
             
-            // Record login auditing history trace
             auditLogs.push({ uid, timestamp: new Date().toLocaleString(), context: navigator.userAgent });
             localStorage.setItem('baSir_InternalAuditLoginLogs', JSON.stringify(auditLogs));
             
@@ -1006,7 +1002,6 @@
                 }
                 localStorage.setItem('baSir_PermanentAccessGrantsRegistry', JSON.stringify(grants));
                 
-                // Add to payment records audit log mapping ledger
                 paymentLogs.push({
                     clientID: item.clientID, moduleId: item.moduleId, moduleTitle: item.moduleTitle,
                     amount: "NPR 50", approvedAt: new Date().toLocaleString()
@@ -1035,7 +1030,6 @@
             document.getElementById('metricClicksVal').innerText = clicks;
             document.getElementById('metricRegUsersVal').innerText = Object.keys(registry).length || 0;
             
-            // Interactions map rows renderer
             const interContainer = document.getElementById('analyticsChapterInteractionModeLogs');
             if(stats.moduleInteractionsMap && Object.keys(stats.moduleInteractionsMap).length > 0) {
                 let html = '';
@@ -1050,7 +1044,6 @@
                 interContainer.innerHTML = `<p class="text-slate-400 text-center py-4">No tracking hits caught.</p>`;
             }
 
-            // Environment logs records renderer
             const logContainer = document.getElementById('analyticsDeviceLogsContainer');
             if(stats.capturedDeviceLogFootprints && stats.capturedDeviceLogFootprints.length > 0) {
                 let html = '';
@@ -1068,7 +1061,6 @@
             }
         }
 
-        // Generate and dispatch dynamic downloadable plain text documents on demand
         function downloadAdminSystemDocument(documentIdentityMode) {
             let dataString = "";
             let filename = "system_report.txt";
@@ -1115,7 +1107,6 @@
             document.getElementById('secureViewerTitle').innerText = title;
             let finalUrl = url;
             
-            // Protected viewer injection architecture converting standard layout links safely
             if(url.includes('drive.google.com')) {
                 if(url.includes('/view')) {
                     finalUrl = url.replace('/view', '/preview');
@@ -1162,19 +1153,18 @@
             document.getElementById('zoomPercentageIndicator').innerText = `${Math.round(activeViewerZoomScale * 100)}%`;
         }
 
-        // Dynamic Watermarking Text Generation Architecture Loop
         function generateSecureDynamicWatermarks() {
             const container = document.getElementById('watermarkContainer');
             container.innerHTML = '';
             const userIdMark = profileEcosystemState.currentSessionAccountID || 'GUEST-UNVERIFIED';
             
-            for (let x = 40; x < window.innerWidth; x += 280) {
-                for (let y = 60; y < window.innerHeight; y += 220) {
+            for (let x = 20; x < window.innerWidth; x += 220) {
+                for (let y = 40; y < window.innerHeight; y += 180) {
                     const block = document.createElement('div');
                     block.className = 'watermark-text';
                     block.style.left = `${x}px`;
                     block.style.top = `${y}px`;
-                    block.innerText = `${userIdMark} @ BA SIR VAULT`;
+                    block.innerText = `${userIdMark} @ PROTECTED VAULT`;
                     container.appendChild(block);
                 }
             }
@@ -1183,22 +1173,22 @@
         // ================== FULL ANTI-THEFT AND DETERRENCE MONITORING METRICS ==================
         window.addEventListener('keydown', function(e) {
             if (
-                e.keyCode === 123 || // F12 Key DevTools
-                (e.ctrlKey && e.keyCode === 80) || // Ctrl+P Print
-                (e.ctrlKey && e.keyCode === 83) || // Ctrl+S Save
-                (e.ctrlKey && e.keyCode === 67) || // Ctrl+C Copy
-                (e.ctrlKey && e.keyCode === 85) || // Ctrl+U Source view
-                (e.metaKey && e.keyCode === 80) || // Mac Cmd+P
-                (e.metaKey && e.keyCode === 83) || // Mac Cmd+S
-                (e.metaKey && e.keyCode === 67) || // Mac Cmd+C
-                (e.metaKey && e.shiftKey && e.keyCode === 52) || // Mac Screenshot Shift+Cmd+4
-                (e.metaKey && e.shiftKey && e.keyCode === 51) || // Mac Screenshot Shift+Cmd+3
-                (e.metaKey && e.shiftKey && e.keyCode === 83) || // Win+Shift+S Snipping tool hotkey
-                (e.ctrlKey && e.shiftKey && e.keyCode === 73)    // Ctrl+Shift+I DevTools
+                e.keyCode === 123 || 
+                (e.ctrlKey && e.keyCode === 80) || 
+                (e.ctrlKey && e.keyCode === 83) || 
+                (e.ctrlKey && e.keyCode === 67) || 
+                (e.ctrlKey && e.keyCode === 85) || 
+                (e.metaKey && e.keyCode === 80) || 
+                (e.metaKey && e.keyCode === 83) || 
+                (e.metaKey && e.keyCode === 67) || 
+                (e.metaKey && e.shiftKey && e.keyCode === 52) || 
+                (e.metaKey && e.shiftKey && e.keyCode === 51) || 
+                (e.metaKey && e.shiftKey && e.keyCode === 83) || 
+                (e.ctrlKey && e.shiftKey && e.keyCode === 73)    
             ) {
                 e.preventDefault();
                 e.stopPropagation();
-                alert("Action Blocked: Content protection measures are active to safeguard materials copyright ownership.");
+                alert("Action Blocked: Content protection measures are fully active to safeguard materials copyright ownership.");
                 return false;
             }
         }, true);
@@ -1221,11 +1211,25 @@
             document.getElementById('viewerContainerScroller').classList.remove('snipping-detected');
         }
 
+        // Mobile protection & touch event defense layer
+        function handleMobileTouchDeterrence() {
+            if (!document.getElementById('secureViewerPortal').classList.contains('hidden')) {
+                document.getElementById('viewerContainerScroller').classList.add('mobile-shield');
+                setTimeout(() => {
+                    document.getElementById('viewerContainerScroller').classList.remove('mobile-shield');
+                }, 400);
+            }
+        }
+
         function activateScreenCaptureProtectionShield() {
             window.addEventListener('blur', applySnippingShieldVisualBlur);
             document.addEventListener('mouseleave', applySnippingShieldVisualBlur);
             window.addEventListener('focus', removeSnippingShieldVisualBlur);
             document.addEventListener('mouseenter', removeSnippingShieldVisualBlur);
+            
+            // Touch monitors to degrade standard mobile scrolling screenshot utilities
+            document.addEventListener('touchstart', handleMobileTouchDeterrence, {passive: true});
+            document.addEventListener('touchmove', handleMobileTouchDeterrence, {passive: true});
         }
 
         function deactivateScreenCaptureProtectionShield() {
@@ -1233,6 +1237,8 @@
             document.removeEventListener('mouseleave', applySnippingShieldVisualBlur);
             window.removeEventListener('focus', removeSnippingShieldVisualBlur);
             document.removeEventListener('mouseenter', removeSnippingShieldVisualBlur);
+            document.removeEventListener('touchstart', handleMobileTouchDeterrence);
+            document.removeEventListener('touchmove', handleMobileTouchDeterrence);
             removeSnippingShieldVisualBlur();
         }
 
@@ -1242,7 +1248,6 @@
             populateChapters();
             logInteractionStep('SECTION', 'home', 'Home Section');
 
-            // Secure Top Navigation Element Structures smooth event listener click mapping triggers safely
             document.querySelectorAll('.block-nav-link').forEach(link => {
                 link.addEventListener('click', function(e) {
                     const cleanTargetId = this.getAttribute('href').replace('#', '');
