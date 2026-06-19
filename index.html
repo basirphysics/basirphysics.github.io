@@ -105,7 +105,17 @@
     <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center flex-wrap gap-4">
             <div class="flex items-center gap-3">
-                <img src="profile.png" alt="Basanta Acharya" onerror="this.src='https://placehold.co/150/e2e8f0/475569?text=BA+Sir'" class="w-12 h-12 rounded-2xl object-cover profile-img">
+                <div class="relative">
+                    <img src="profile.png" alt="Basanta Acharya" onerror="this.src='https://placehold.co/150/e2e8f0/475569?text=BA+Sir'" class="w-12 h-12 rounded-2xl object-cover profile-img">
+                    <button onclick="toggleAdminMenuDropdown(event)" id="adminMenuToggleBtn" class="absolute -top-2 -left-2 w-6 h-6 bg-slate-900 hover:bg-slate-700 text-white rounded-lg flex items-center justify-center shadow-md transition-colors" title="Menu">
+                        <i class="fas fa-bars text-[10px]"></i>
+                    </button>
+                    <div id="adminMenuDropdown" class="hidden absolute top-9 -left-2 z-[60] bg-white border rounded-2xl shadow-xl py-2 w-44">
+                        <button onclick="showAdminPasswordModal(); toggleAdminMenuDropdown();" class="w-full text-left px-4 py-2 text-sm font-medium text-amber-700 hover:bg-amber-50 flex items-center gap-2">
+                            <i class="fas fa-user-shield"></i> Admin Panel
+                        </button>
+                    </div>
+                </div>
                 <div>
                     <span class="font-bold text-2xl tracking-tight">BA Sir</span>
                     <p class="text-xs text-slate-500 -mt-1">Basanta Acharya</p>
@@ -127,8 +137,6 @@
                     <span id="userGreeting" class="text-xs text-slate-600 max-w-[120px] truncate">Guest Mode</span>
                     <button id="authTriggerBtn" onclick="toggleAuthPortalModal()" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-xl transition-all">Login / Sign Up</button>
                 </div>
-
-                <button onclick="showAdminPasswordModal()" class="bg-amber-600 hover:bg-amber-700 text-white px-5 py-2 rounded-2xl text-sm font-medium transition-colors">Admin Panel</button>
             </div>
         </div>
     </nav>
@@ -923,6 +931,19 @@
         }
 
         // ================== ADMINISTRATIVE DASHBOARD PARAMETERS ==================
+        function toggleAdminMenuDropdown(e) {
+            if(e) e.stopPropagation();
+            document.getElementById('adminMenuDropdown').classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('adminMenuDropdown');
+            const toggleBtn = document.getElementById('adminMenuToggleBtn');
+            if (dropdown && !dropdown.classList.contains('hidden') && !dropdown.contains(e.target) && e.target !== toggleBtn && !toggleBtn.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
         function showAdminPasswordModal() {
             document.getElementById('adminSecretKeyInput').value = '';
             document.getElementById('adminAuthModal').classList.remove('hidden');
