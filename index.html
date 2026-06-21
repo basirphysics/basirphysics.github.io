@@ -425,11 +425,22 @@
                 <button id="adminPaymentsTabHead" onclick="switchAdminSubPanel('PAYMENTS')" class="px-6 py-3 border-b-2 border-blue-600 text-blue-600">Pending Payments Queue</button>
                 <button id="adminAnalyticsTabHead" onclick="switchAdminSubPanel('ANALYTICS')" class="px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800">Analytics Telemetry Stats</button>
                 <button id="adminRecordsTabHead" onclick="switchAdminSubPanel('RECORDS')" class="px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800">Downloadable Documents Records</button>
+                <button id="adminBlockedTabHead" onclick="switchAdminSubPanel('BLOCKED')" class="px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800">Blocked Permanent IDs</button>
             </div>
             
             <div class="flex-1 overflow-auto p-6 bg-slate-50">
                 <div id="adminPaymentsSubBlock" class="space-y-4">
-                    <h4 class="font-bold text-slate-800 tracking-tight text-lg mb-2">Awaiting Verification Requests</h4>
+                    <div class="flex flex-wrap justify-between items-center gap-3 mb-2">
+                        <h4 class="font-bold text-slate-800 tracking-tight text-lg">Awaiting Verification Requests</h4>
+                        <div class="flex gap-2">
+                            <button onclick="executeBulkApprovalPipeline(true)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 transition-all shadow-sm">
+                                <i class="fas fa-check-double"></i> Approve All
+                            </button>
+                            <button onclick="executeBulkApprovalPipeline(false)" class="bg-red-100 hover:bg-red-200 text-red-700 font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-2 transition-all shadow-sm">
+                                <i class="fas fa-ban"></i> Reject All
+                            </button>
+                        </div>
+                    </div>
                     <div id="pendingList" class="space-y-3"></div>
                 </div>
 
@@ -478,6 +489,24 @@
                                 <i class="fas fa-download"></i> Download Payment Ledger Document (.txt)
                             </button>
                         </div>
+                    </div>
+                </div>
+
+                <div id="adminBlockedSubBlock" class="hidden space-y-6">
+                    <div class="bg-white border rounded-2xl p-6 shadow-sm space-y-4">
+                        <h4 class="font-bold text-slate-800 text-lg"><i class="fas fa-user-slash text-red-600 mr-2"></i>Block Permanent ID for Rule Violation</h4>
+                        <p class="text-xs text-slate-500">Manually block any Permanent (Login) ID — registered or not — from accessing the platform. Blocked IDs cannot log in or purchase new content until unblocked.</p>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" id="manualBlockIdInput" placeholder="Enter Permanent ID / Login ID to block" class="flex-1 px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">
+                            <button onclick="blockManualClientIdentityEntry()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-5 py-3 rounded-xl text-sm flex items-center justify-center gap-2 transition-all shadow-sm whitespace-nowrap">
+                                <i class="fas fa-ban"></i> Block ID
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-slate-800 tracking-tight text-lg">Registered Permanent IDs &amp; Status</h4>
+                        <div id="blockedIdsListContainer" class="space-y-3"></div>
                     </div>
                 </div>
             </div>
@@ -650,6 +679,9 @@
         }
         if(!localStorage.getItem('baSir_InternalAuditPaymentLogs')) {
             localStorage.setItem('baSir_InternalAuditPaymentLogs', JSON.stringify([]));
+        }
+        if(!localStorage.getItem('baSir_BlockedClientIDsRegistry')) {
+            localStorage.setItem('baSir_BlockedClientIDsRegistry', JSON.stringify([]));
         }
 
         // ================== STEP HISTORY NAVIGATION CONTROLLERS ==================
@@ -874,6 +906,12 @@
             const uid = document.getElementById('authEmailField').value.trim();
             const pass = document.getElementById('authPasswordField').value;
             if(!uid || !pass) { alert("Please complete credentials requirements inputs."); return; }
+
+            let blockedRegistry = JSON.parse(localStorage.getItem('baSir_BlockedClientIDsRegistry')) || [];
+            if(blockedRegistry.includes(uid)) {
+                alert("Access Denied: This Permanent ID has been blocked by the Administrator for violating platform rules. Please contact BA Sir via Whatsapp if you believe this is a mistake.");
+                return;
+            }
             
             let registry = JSON.parse(localStorage.getItem('baSir_ClientRegistryDatabase'));
             let auditLogs = JSON.parse(localStorage.getItem('baSir_InternalAuditLoginLogs')) || [];
@@ -905,6 +943,11 @@
             if(!profileEcosystemState.currentSessionAccountID) {
                 alert("Authentication Required: Please login / sign up to obtain a unique Login ID before initiating secure billing pipelines.");
                 toggleAuthPortalModal();
+                return;
+            }
+            let blockedRegistryCheck = JSON.parse(localStorage.getItem('baSir_BlockedClientIDsRegistry')) || [];
+            if(blockedRegistryCheck.includes(profileEcosystemState.currentSessionAccountID)) {
+                alert("Access Denied: Your Permanent ID has been blocked by the Administrator for violating platform rules.");
                 return;
             }
             currentPayChapter = chObj;
@@ -970,7 +1013,7 @@
         function hideAdminPanel() { document.getElementById('adminPanel').classList.add('hidden'); }
 
         function switchAdminSubPanel(tab) {
-            const tabs = ['PAYMENTS', 'ANALYTICS', 'RECORDS'];
+            const tabs = ['PAYMENTS', 'ANALYTICS', 'RECORDS', 'BLOCKED'];
             tabs.forEach(t => {
                 document.getElementById(`admin${t.charAt(0) + t.slice(1).toLowerCase()}TabHead`).className = "px-6 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-800";
                 document.getElementById(`admin${t.charAt(0) + t.slice(1).toLowerCase()}SubBlock`).classList.add('hidden');
@@ -981,6 +1024,7 @@
             
             if(tab === 'PAYMENTS') renderPendingApprovalsWorkflowQueue();
             if(tab === 'ANALYTICS') renderAdminAnalyticsDashboardViewports();
+            if(tab === 'BLOCKED') renderAdminBlockedIDsManagementPanel();
         }
 
         function renderPendingApprovalsWorkflowQueue() {
@@ -1043,6 +1087,114 @@
             localStorage.setItem('baSir_PendingPaymentSubmissionsQueue', JSON.stringify(queue));
             renderPendingApprovalsWorkflowQueue();
             refreshUIWorkspaceViewports();
+        }
+
+        // ================== BULK APPROVE ALL / REJECT ALL PAYMENTS WORKFLOW ==================
+        function executeBulkApprovalPipeline(isApproved) {
+            let queue = JSON.parse(localStorage.getItem('baSir_PendingPaymentSubmissionsQueue')) || [];
+
+            if(queue.length === 0) {
+                alert("No pending requests are currently in the queue to process.");
+                return;
+            }
+
+            const actionLabel = isApproved ? "APPROVE" : "REJECT";
+            const confirmed = confirm(`Are you sure you want to ${actionLabel} ALL ${queue.length} pending payment request(s)? This action cannot be undone.`);
+            if(!confirmed) return;
+
+            let grants = JSON.parse(localStorage.getItem('baSir_PermanentAccessGrantsRegistry')) || {};
+            let paymentLogs = JSON.parse(localStorage.getItem('baSir_InternalAuditPaymentLogs')) || [];
+
+            queue.forEach(item => {
+                if(isApproved) {
+                    if(!grants[item.clientID]) grants[item.clientID] = [];
+                    if(!grants[item.clientID].includes(item.moduleId)) {
+                        grants[item.clientID].push(item.moduleId);
+                    }
+                    paymentLogs.push({
+                        clientID: item.clientID, moduleId: item.moduleId, moduleTitle: item.moduleTitle,
+                        amount: "NPR 50", approvedAt: new Date().toLocaleString()
+                    });
+                }
+            });
+
+            if(isApproved) {
+                localStorage.setItem('baSir_PermanentAccessGrantsRegistry', JSON.stringify(grants));
+                localStorage.setItem('baSir_InternalAuditPaymentLogs', JSON.stringify(paymentLogs));
+                alert(`Approved! All ${queue.length} pending request(s) have been unlocked permanently.`);
+            } else {
+                alert(`Rejected! All ${queue.length} pending request(s) have been dismissed from the buffer queue.`);
+            }
+
+            localStorage.setItem('baSir_PendingPaymentSubmissionsQueue', JSON.stringify([]));
+            renderPendingApprovalsWorkflowQueue();
+            refreshUIWorkspaceViewports();
+        }
+
+        // ================== PERMANENT ID BLOCKING / RULE VIOLATION ENFORCEMENT ==================
+        function renderAdminBlockedIDsManagementPanel() {
+            const registry = JSON.parse(localStorage.getItem('baSir_ClientRegistryDatabase')) || {};
+            const blockedList = JSON.parse(localStorage.getItem('baSir_BlockedClientIDsRegistry')) || [];
+            const container = document.getElementById('blockedIdsListContainer');
+
+            const allKnownIds = Array.from(new Set([...Object.keys(registry), ...blockedList]));
+
+            if(allKnownIds.length === 0) {
+                container.innerHTML = `<p class="text-center text-slate-400 py-8 text-xs font-medium">No registered student Permanent IDs found yet.</p>`;
+                return;
+            }
+
+            let html = '';
+            allKnownIds.forEach(id => {
+                const isBlocked = blockedList.includes(id);
+                html += `
+                    <div class="border rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-white shadow-sm text-xs ${isBlocked ? 'border-red-300 bg-red-50' : ''}">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="bg-slate-100 text-slate-800 font-bold px-2 py-0.5 rounded text-[10px]">PERMANENT ID</span>
+                            <span class="font-mono font-bold text-slate-900">${id}</span>
+                            ${isBlocked 
+                                ? '<span class="bg-red-600 text-white px-2 py-0.5 rounded text-[10px] font-bold uppercase">Blocked</span>' 
+                                : '<span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded text-[10px] font-bold uppercase">Active</span>'}
+                        </div>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            ${isBlocked 
+                                ? `<button onclick="unblockClientIdentity('${id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-xl flex-1 sm:flex-none">Unblock</button>`
+                                : `<button onclick="blockClientIdentity('${id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-2 rounded-xl flex-1 sm:flex-none">Block (Rule Violation)</button>`}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function blockClientIdentity(id) {
+            if(!id) return;
+            if(!confirm(`Block Permanent ID "${id}" for violating platform rules? They will immediately lose the ability to login or purchase new content.`)) return;
+
+            let blockedList = JSON.parse(localStorage.getItem('baSir_BlockedClientIDsRegistry')) || [];
+            if(!blockedList.includes(id)) blockedList.push(id);
+            localStorage.setItem('baSir_BlockedClientIDsRegistry', JSON.stringify(blockedList));
+
+            alert(`Permanent ID "${id}" has been blocked successfully.`);
+            renderAdminBlockedIDsManagementPanel();
+        }
+
+        function unblockClientIdentity(id) {
+            if(!id) return;
+            let blockedList = JSON.parse(localStorage.getItem('baSir_BlockedClientIDsRegistry')) || [];
+            blockedList = blockedList.filter(b => b !== id);
+            localStorage.setItem('baSir_BlockedClientIDsRegistry', JSON.stringify(blockedList));
+
+            alert(`Permanent ID "${id}" has been unblocked and may access the platform again.`);
+            renderAdminBlockedIDsManagementPanel();
+        }
+
+        function blockManualClientIdentityEntry() {
+            const input = document.getElementById('manualBlockIdInput');
+            const id = input.value.trim();
+            if(!id) { alert("Please enter a Permanent ID to block."); return; }
+            blockClientIdentity(id);
+            input.value = '';
         }
 
         function renderAdminAnalyticsDashboardViewports() {
