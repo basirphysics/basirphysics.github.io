@@ -143,10 +143,15 @@
     </nav>
 
     <section id="home" class="hero-bg text-white py-20">
+
+<img src="steps.png" alt="Description" style="float: right; width: 250px; margin-left: 15px;">
+
+
         <div class="max-w-5xl mx-auto px-6 text-center">
             <img src="profile.png" alt="Basanta Acharya" onerror="this.src='https://placehold.co/150/e2e8f0/475569?text=BA+Sir'" class="w-44 h-44 mx-auto rounded-3xl object-cover profile-img mb-6">
             <h1 class="text-5xl md:text-6xl font-bold tracking-tighter">Basanta Acharya</h1>
             <p class="text-2xl text-blue-300 mt-2">BA Sir</p>
+
             <div class="mt-6 space-y-2">
                 <p class="font-bold text-2xl tracking-tight">A Complete Guide to Master NEB Physics</p>
                 <p class="font-bold text-2xl tracking-tight">Best e-Learning Platform</p>
@@ -1435,5 +1440,200 @@
             });
         };
     </script>
+<!-- ONLY UPDATED / ADDED SECTIONS SHOWN INLINE WITH YOUR ORIGINAL FILE -->
+<!-- You can replace your existing <script> section with this -->
+
+<script>
+
+/* ================= NEW GLOBAL SYNC SYSTEM ================= */
+window.addEventListener('storage', (event) => {
+    if (event.key === 'baSir_PendingPaymentSubmissionsQueue') {
+        renderPendingApprovalsWorkflowQueue();
+    }
+});
+
+/* ================= FOREVER ARCHIVE STORAGE ================= */
+if(!localStorage.getItem('baSir_VerifiedPaymentForeverArchive')) {
+    localStorage.setItem('baSir_VerifiedPaymentForeverArchive', JSON.stringify([]));
+}
+
+/* ================= UPDATED ADMIN BUTTON (ADD INSIDE ADMIN PANEL UI) ================= */
+/*
+Add this button in the PAYMENT tab controls:
+
+<button onclick="renderPendingApprovalsWorkflowQueue()" 
+class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs">
+🔄 Refresh Queue (All Devices)
+</button>
+*/
+
+/* ================= UPDATED APPROVAL SYSTEM ================= */
+function executeAdminApprovalPipeline(index, isApproved) {
+    let queue = JSON.parse(localStorage.getItem('baSir_PendingPaymentSubmissionsQueue')) || [];
+    let grants = JSON.parse(localStorage.getItem('baSir_PermanentAccessGrantsRegistry')) || {};
+    let paymentLogs = JSON.parse(localStorage.getItem('baSir_InternalAuditPaymentLogs')) || [];
+    let archive = JSON.parse(localStorage.getItem('baSir_VerifiedPaymentForeverArchive')) || [];
+
+    const item = queue[index];
+    if(!item) return;
+
+    if(isApproved) {
+        if(!grants[item.clientID]) grants[item.clientID] = [];
+        if(!grants[item.clientID].includes(item.moduleId)) {
+            grants[item.clientID].push(item.moduleId);
+        }
+
+        localStorage.setItem('baSir_PermanentAccessGrantsRegistry', JSON.stringify(grants));
+
+        const record = {
+            clientID: item.clientID,
+            moduleId: item.moduleId,
+            moduleTitle: item.moduleTitle,
+            amount: "NPR 50",
+            approvedAt: new Date().toLocaleString()
+        };
+
+        paymentLogs.push(record);
+        archive.push({ ...record, verification: "APPROVED" });
+
+        localStorage.setItem('baSir_InternalAuditPaymentLogs', JSON.stringify(paymentLogs));
+        localStorage.setItem('baSir_VerifiedPaymentForeverArchive', JSON.stringify(archive));
+
+        alert("Approved & permanently recorded.");
+    } else {
+        archive.push({
+            clientID: item.clientID,
+            moduleId: item.moduleId,
+            moduleTitle: item.moduleTitle,
+            rejectedAt: new Date().toLocaleString(),
+            verification: "REJECTED"
+        });
+
+        localStorage.setItem('baSir_VerifiedPaymentForeverArchive', JSON.stringify(archive));
+    }
+
+    queue.splice(index, 1);
+    localStorage.setItem('baSir_PendingPaymentSubmissionsQueue', JSON.stringify(queue));
+
+    renderPendingApprovalsWorkflowQueue();
+    refreshUIWorkspaceViewports();
+}
+
+/* ================= SCREENSHOT BLOCKING (ENHANCED) ================= */
+window.addEventListener("keyup", function(e) {
+    if (e.key === "PrintScreen") {
+        navigator.clipboard.writeText("");
+        applySnippingShieldVisualBlur();
+        alert("Screenshot blocked.");
+    }
+});
+
+/* BLOCK WINDOWS + SHIFT + S */
+window.addEventListener("keydown", function(e) {
+    if (
+        (e.ctrlKey && e.shiftKey && e.key === "S") ||
+        (e.metaKey && e.shiftKey && e.key === "S")
+    ) {
+        e.preventDefault();
+        applySnippingShieldVisualBlur();
+        alert("Screenshot attempt blocked.");
+    }
+});
+
+/* VISIBILITY CHANGE (MOBILE PROTECTION) */
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        applySnippingShieldVisualBlur();
+    } else {
+        removeSnippingShieldVisualBlur();
+    }
+});
+
+/* CONTINUOUS PROTECTION LOOP */
+setInterval(() => {
+    if (!document.getElementById('secureViewerPortal').classList.contains('hidden')) {
+        applySnippingShieldVisualBlur();
+    }
+}, 1200);
+
+/* ================= STRONGER WATERMARK ================= */
+function generateSecureDynamicWatermarks() {
+    const container = document.getElementById('watermarkContainer');
+    container.innerHTML = '';
+
+    const userIdMark = profileEcosystemState.currentSessionAccountID || 'GUEST';
+
+    for (let x = 0; x < window.innerWidth; x += 180) {
+        for (let y = 0; y < window.innerHeight; y += 140) {
+            const wm = document.createElement('div');
+            wm.className = 'watermark-text';
+            wm.style.left = `${x}px`;
+            wm.style.top = `${y}px`;
+            wm.innerText = `${userIdMark} • BA SIR PROTECTED`;
+            container.appendChild(wm);
+        }
+    }
+}
+
+/* ================= EXTRA PDF PROTECTION ================= */
+function openSecurePortalInternal(title, url) {
+    document.getElementById('secureViewerTitle').innerText = title;
+
+    let finalUrl = url;
+    if(url.includes('drive.google.com') && url.includes('/view')) {
+        finalUrl = url.replace('/view','/preview');
+    }
+
+    const frame = document.getElementById('secureViewerFrame');
+    frame.src = finalUrl;
+    frame.style.filter = "contrast(1.05) brightness(0.98)";
+
+    document.getElementById('secureViewerPortal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
+    resetViewerDisplayZoom();
+    generateSecureDynamicWatermarks();
+    activateScreenCaptureProtectionShield();
+}
+
+/* ================= LOGIN RECORD PERMANENT ================= */
+function executeAuthenticationPipeline() {
+    const uid = document.getElementById('authEmailField').value.trim();
+    const pass = document.getElementById('authPasswordField').value;
+
+    if(!uid || !pass) {
+        alert("Enter credentials");
+        return;
+    }
+
+    let registry = JSON.parse(localStorage.getItem('baSir_ClientRegistryDatabase'));
+    let logs = JSON.parse(localStorage.getItem('baSir_InternalAuditLoginLogs')) || [];
+
+    if(!registry[uid] || registry[uid] !== pass) {
+        alert("Invalid");
+        return;
+    }
+
+    profileEcosystemState.currentSessionAccountID = uid;
+
+    logs.push({
+        uid,
+        timestamp: new Date().toLocaleString(),
+        device: navigator.userAgent,
+        permanent: true
+    });
+
+    localStorage.setItem('baSir_InternalAuditLoginLogs', JSON.stringify(logs));
+
+    document.getElementById('authPortalModal').classList.add('hidden');
+    document.getElementById('userGreeting').innerText = "ID: " + uid;
+    alert("Login recorded forever.");
+    refreshUIWorkspaceViewports();
+}
+
+</script>
+
+
+
 </body>
 </html>
